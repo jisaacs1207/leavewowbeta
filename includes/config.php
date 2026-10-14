@@ -105,7 +105,18 @@ function petition_config(): array
         // Public recent-name list unlocks at this real signature count (never padded).
         'names_public_threshold' => env_int('NAMES_PUBLIC_THRESHOLD', 25),
         'debug' => env_bool('APP_DEBUG', false),
-        'hash_pepper' => env('HASH_PEPPER', env('DB_PASS', 'leavewowbeta-pepper')),
+        // Prefer a distinct HASH_PEPPER in .env. Falling back to DB_PASS keeps existing
+        // email_hash rows stable; do not rotate pepper on a live DB without a migration.
+        'hash_pepper' => env('HASH_PEPPER') ?: (env('DB_PASS') ?: 'leavewowbeta-pepper'),
+        'email_verifier' => [
+            // Fail-open helper: disposable rejection only; never blocks when the API is down.
+            'enabled' => env_bool('EMAIL_VERIFIER_ENABLED', true),
+            'url' => env(
+                'EMAIL_VERIFIER_URL',
+                'https://rapid-email-verifier.fly.dev/api/validate'
+            ),
+            'timeout' => env_int('EMAIL_VERIFIER_TIMEOUT', 2),
+        ],
     ];
 
     return $config;

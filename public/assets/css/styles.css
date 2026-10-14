@@ -319,11 +319,32 @@ img {
 
 .hero__meta {
   margin: 0;
-  font-size: 0.92rem;
-  color: var(--ink-muted);
   border-top: 1px solid var(--line);
   padding-top: 1rem;
-  max-width: 26rem;
+  max-width: 20rem;
+}
+
+.hero__meta-count {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.hero__meta-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(239, 232, 216, 0.82);
+  letter-spacing: 0.01em;
+}
+
+.hero__meta-note {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: rgba(239, 232, 216, 0.72);
+  max-width: 22rem;
 }
 
 .hero__meta a {
@@ -340,8 +361,9 @@ img {
   font-family: var(--font-display);
   color: var(--gold-bright);
   font-weight: 700;
-  font-size: 1.15rem;
-  margin-right: 0.35rem;
+  font-size: 1.35rem;
+  line-height: 1;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
 }
 
 .btn {
@@ -1245,6 +1267,10 @@ h2 {
   }
 
   .hero__meta {
+    max-width: none;
+  }
+
+  .hero__meta-note {
     max-width: none;
   }
 

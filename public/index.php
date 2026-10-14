@@ -112,7 +112,7 @@ $jsonLd = [
                     'name' => 'What is Leave Wow Beta Live?',
                     'acceptedAnswer' => [
                         '@type' => 'Answer',
-                        'text' => 'Leave Wow Beta Live (leavewowbeta.live) is an independent community petition asking Blizzard to keep World of Warcraft: Forever beta online until launch. It is not affiliated with Blizzard. Emails stay private; character names may appear in the public signature list once enough players have signed.',
+                        'text' => 'Leave Wow Beta Live (leavewowbeta.live) is an independent community petition asking Blizzard to keep World of Warcraft: Forever beta online until launch. It is not affiliated with Blizzard. Emails stay private; character names may appear in the public signature list once enough players have signed. Some names may be held from the public list.',
                     ],
                 ],
                 [
@@ -136,7 +136,7 @@ $jsonLd = [
                     'name' => 'Is my email shown publicly if I sign?',
                     'acceptedAnswer' => [
                         '@type' => 'Answer',
-                        'text' => 'No. Emails stay private and are used only to verify and deliver this petition. Character names may appear in the public list once enough players have signed. For deletion or access requests, email privacy@leavewowbeta.live.',
+                        'text' => 'No. Emails stay private and are used only to verify and deliver this petition. We may run a privacy-focused syntax and domain check that does not store addresses. Character names may appear in the public list once enough players have signed; some names may stay off that list. For deletion or access requests, email privacy@leavewowbeta.live.',
                     ],
                 ],
                 [
@@ -179,14 +179,14 @@ $jsonLd = [
   <meta name="twitter:image:alt" content="Leave Wow Beta Live: keep Forever beta online until Nov 4. leavewowbeta.live">
   <link rel="canonical" href="<?= e($appUrl) ?>">
   <link rel="sitemap" type="application/xml" href="<?= e(rtrim($appUrl, '/') . '/sitemap.xml') ?>">
-  <link rel="icon" href="/favicon.ico?v=17" sizes="any">
-  <link rel="icon" href="/assets/img/favicon.ico?v=17" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=17">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=17">
+  <link rel="icon" href="/favicon.ico?v=18" sizes="any">
+  <link rel="icon" href="/assets/img/favicon.ico?v=18" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=18">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=18">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css?v=17">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=18">
   <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
   <?php if ($siteKey !== ''): ?>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -249,19 +249,17 @@ $jsonLd = [
           <a class="btn btn--primary" href="#sign">Sign the petition</a>
           <a class="btn btn--ghost" href="#why">Why it matters</a>
         </div>
-        <p class="hero__meta">
-          <span class="hero__count" data-count="<?= (int) $count ?>"><?= number_format($count) ?></span>
-          <?php
-            $sigWord = ((int) $count === 1) ? 'signature' : 'signatures';
-          ?>
+        <div class="hero__meta">
+          <p class="hero__meta-count">
+            <span class="hero__count" data-count="<?= (int) $count ?>"><?= number_format($count) ?></span>
+            <span class="hero__meta-label"><?= ((int) $count === 1) ? 'signature' : 'signatures' ?></span>
+          </p>
           <?php if ((int) $count === 0): ?>
-            <?= $sigWord ?> so far. Be among the first Forever players to ask, then <a href="#reach">share the link</a>.
+            <p class="hero__meta-note">Be among the first Forever players to ask. <a href="#reach">Share the link</a>.</p>
           <?php elseif (!$namesVisible): ?>
-            <?= $sigWord ?> so far. Real names only. <a href="#reach">Share Leave Wow Beta Live</a> so more Forever players can sign.
-          <?php else: ?>
-            <?= $sigWord ?> so far
+            <p class="hero__meta-note"><a href="#reach">Share Leave Wow Beta Live</a> so more Forever players can sign.</p>
           <?php endif; ?>
-        </p>
+        </div>
       </div>
     </section>
 
@@ -308,7 +306,7 @@ $jsonLd = [
           <p class="section__eyebrow">Sign</p>
           <h2 id="sign-title">Sign the petition to keep Forever beta online</h2>
           <p class="section__lede">
-            Email stays private. Character names appear in the public list once enough players have signed, so the chorus looks serious. Until then we show the honest count and ask you to share.
+            Email stays private. Character names appear in the public list once enough players have signed, so the chorus looks serious. Until then we show the honest count and ask you to share. A few names may stay off the public list even after that.
           </p>
 
           <?php if ($dbError !== null): ?>
@@ -331,7 +329,7 @@ $jsonLd = [
             <div class="field">
               <label for="character_name">Character name <span class="req">required</span></label>
               <input type="text" id="character_name" name="character_name" required maxlength="32" autocomplete="nickname" placeholder="Character name" spellcheck="false">
-              <p class="field__hint">As it appears in Forever.</p>
+              <p class="field__hint">Your main character</p>
               <p class="field__error" data-error-for="character_name" hidden></p>
             </div>
 
@@ -546,7 +544,7 @@ $jsonLd = [
           <details class="faq-item">
             <summary>Is my email shown publicly if I sign?</summary>
             <p>
-              No. Emails stay private and are used only to verify and deliver this petition. Character names may appear in the public list once enough players have signed. For deletion or access requests, email
+              No. Emails stay private and are used only to verify and deliver this petition. We may run a privacy-focused syntax and domain check that does not store addresses. Character names may appear in the public list once enough players have signed; some names may stay off that list. For deletion or access requests, email
               <a href="mailto:<?= e($privacyContact) ?>"><?= e($privacyContact) ?></a>.
             </p>
           </details>
@@ -576,7 +574,7 @@ $jsonLd = [
           </p>
           <p>
             <strong>Privacy.</strong>
-            Emails are never sold and never shown publicly. Character names may appear in the public list.
+            Emails are never sold and never shown publicly. Character names may appear in the public list; some may stay off it.
             Questions or deletion requests:
             <a href="mailto:<?= e($privacyContact) ?>"><?= e($privacyContact) ?></a>.
           </p>
@@ -593,6 +591,7 @@ $jsonLd = [
               <p>
                 Emails are used only to run, verify, and deliver this petition (authenticity, counting, and possible later delivery to Blizzard).
                 Uniqueness is enforced with a server-side email hash; the email itself is stored only on the server.
+                We may call a privacy-focused validation helper for syntax, domain, and disposable checks; that helper is configured not to store addresses, and a failed helper never blocks a signature by itself.
               </p>
               <p>
                 If you are in the EEA, UK, California, or a similar jurisdiction, you may request access to or deletion of your signature data by emailing
@@ -607,6 +606,6 @@ $jsonLd = [
 
   <a class="mobile-sign" href="#sign">Sign the petition</a>
 
-  <script src="/assets/js/petition.js?v=17" defer></script>
+  <script src="/assets/js/petition.js?v=18" defer></script>
 </body>
 </html>

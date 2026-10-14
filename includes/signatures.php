@@ -31,13 +31,18 @@ function petition_sanitize_character_name(string $name): string
 /**
  * Validate public form input. Only email + character name are collected.
  *
- * @return array{ok:bool,errors:array<string,string>,data:array{email:string,character_name:string}}
+ * @return array{
+ *   ok:bool,
+ *   errors:array<string,string>,
+ *   data:array{email:string,character_name:string,is_public:int}
+ * }
  */
 function petition_validate_signature_input(array $input): array
 {
     require_once __DIR__ . '/name_filter.php';
 
     $errors = [];
+    $isPublic = 1;
 
     $email = petition_normalize_email((string) ($input['email'] ?? ''));
     $character = petition_sanitize_character_name((string) ($input['character_name'] ?? ''));
@@ -56,9 +61,11 @@ function petition_validate_signature_input(array $input): array
     } elseif (!preg_match('/^[\p{L}][\p{L}\s\-\']{0,31}$/u', $character)) {
         $errors['character_name'] = 'Character name may only contain letters, spaces, hyphens, or apostrophes.';
     } else {
-        $allowed = petition_character_name_allowed($character);
-        if (!$allowed['ok']) {
-            $errors['character_name'] = $allowed['error'] ?? 'Use a Forever character name.';
+        $check = petition_character_name_check($character);
+        if (!$check['ok']) {
+            $errors['character_name'] = $check['error'] ?? 'Use a Forever character name.';
+        } elseif (($check['visibility'] ?? 'public') === 'hidden') {
+            $isPublic = 0;
         }
     }
 
@@ -68,6 +75,7 @@ function petition_validate_signature_input(array $input): array
         'data' => [
             'email' => $email,
             'character_name' => $character,
+            'is_public' => $isPublic,
         ],
     ];
 }
@@ -81,6 +89,7 @@ function petition_signature_count(): int
 
 /**
  * Public list only: never select or return email / email_hash / ip fields.
+ * Soft-quarantined names (is_public = 0) are omitted even above the threshold.
  *
  * @return list<array{character_name:string,created_at:string}>
  */
@@ -90,6 +99,7 @@ function petition_recent_signatures(int $limit = 12): array
     $stmt = petition_db()->prepare(
         'SELECT character_name, created_at
          FROM signatures
+         WHERE is_public = 1
          ORDER BY created_at DESC, id DESC
          LIMIT ?'
     );
@@ -103,24 +113,28 @@ function petition_recent_signatures(int $limit = 12): array
  * Store email server-side for petition delivery/verification.
  * Uniqueness is enforced via email_hash. Realm is no longer collected (stored NULL).
  *
+ * @param array{email:string,character_name:string,is_public?:int} $data
  * @return array{ok:bool,error?:string,code?:string,id?:int}
  */
 function petition_create_signature(array $data, string $ip, string $userAgent): array
 {
     $pdo = petition_db();
     $emailHash = petition_email_hash($data['email']);
+    $isPublic = isset($data['is_public']) ? (int) $data['is_public'] : 1;
+    $isPublic = $isPublic === 0 ? 0 : 1;
 
     try {
         $stmt = $pdo->prepare(
             'INSERT INTO signatures
-                (email, email_hash, character_name, realm, ip_hash, user_agent_hash, created_at)
+                (email, email_hash, character_name, is_public, realm, ip_hash, user_agent_hash, created_at)
              VALUES
-                (:email, :email_hash, :character_name, NULL, :ip_hash, :ua_hash, UTC_TIMESTAMP())'
+                (:email, :email_hash, :character_name, :is_public, NULL, :ip_hash, :ua_hash, UTC_TIMESTAMP())'
         );
         $stmt->execute([
             ':email' => $data['email'],
             ':email_hash' => $emailHash,
             ':character_name' => $data['character_name'],
+            ':is_public' => $isPublic,
             ':ip_hash' => petition_ip_hash($ip),
             ':ua_hash' => hash('sha256', (petition_config()['hash_pepper'] ?? '') . '|ua|' . $userAgent),
         ]);

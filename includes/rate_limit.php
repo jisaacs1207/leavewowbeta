@@ -3,10 +3,55 @@ declare(strict_types=1);
 
 function petition_client_ip(): string
 {
-    // Prefer direct connection IP. Do not trust X-Forwarded-For unless you terminate
-    // TLS at Cloudflare and configure trusted proxies in Plesk.
+    // Site is Cloudflare-proxied. Prefer CF-Connecting-IP when it is a valid address
+    // so rate limits apply per visitor, not per edge hop.
+    $cf = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '';
+    if (is_string($cf)) {
+        $cf = trim($cf);
+        if ($cf !== '' && filter_var($cf, FILTER_VALIDATE_IP)) {
+            return $cf;
+        }
+    }
+
     $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
     return is_string($ip) ? $ip : '0.0.0.0';
+}
+
+/**
+ * When Origin or Referer is present, require it to match APP_URL.
+ * Missing both is allowed (some browsers omit them); Turnstile still gates the POST.
+ */
+function petition_request_origin_ok(): bool
+{
+    $app = rtrim((string) (petition_config()['app_url'] ?? ''), '/');
+    if ($app === '') {
+        return true;
+    }
+
+    $origin = trim((string) ($_SERVER['HTTP_ORIGIN'] ?? ''));
+    if ($origin !== '') {
+        return petition_url_matches_app($origin, $app);
+    }
+
+    $referer = trim((string) ($_SERVER['HTTP_REFERER'] ?? ''));
+    if ($referer !== '') {
+        return petition_url_matches_app($referer, $app);
+    }
+
+    return true;
+}
+
+function petition_url_matches_app(string $candidate, string $app): bool
+{
+    $parts = parse_url($candidate);
+    if (!is_array($parts) || empty($parts['scheme']) || empty($parts['host'])) {
+        return false;
+    }
+    $normalized = strtolower($parts['scheme'] . '://' . $parts['host']);
+    if (!empty($parts['port'])) {
+        $normalized .= ':' . $parts['port'];
+    }
+    return $normalized === strtolower($app);
 }
 
 function petition_rate_limit_allow(string $ip): array

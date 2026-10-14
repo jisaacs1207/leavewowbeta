@@ -12,6 +12,11 @@
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set X-Frame-Options "DENY"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()"
+  Header unset X-Powered-By
+  Header always unset X-Powered-By
+  # Turnstile + Google Fonts; JSON-LD is non-executable application/ld+json.
+  Header set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; frame-src https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com; upgrade-insecure-requests"
 </IfModule>
 
 # Block direct web access to parent application files if docroot is mis-set
@@ -19,4 +24,5 @@ Options -Indexes
 
 <IfModule mod_php.c>
   php_flag display_errors Off
+  php_flag expose_php Off
 </IfModule>

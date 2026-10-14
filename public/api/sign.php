@@ -22,6 +22,12 @@ if ($honeypot !== '') {
     exit;
 }
 
+if (!petition_request_origin_ok()) {
+    http_response_code(403);
+    echo json_encode(['ok' => false, 'error' => 'Invalid request origin.']);
+    exit;
+}
+
 $ip = petition_client_ip();
 $rate = petition_rate_limit_allow($ip);
 if (!$rate['allowed']) {
@@ -54,6 +60,19 @@ if (!$validated['ok']) {
         'ok' => false,
         'error' => 'Please fix the highlighted fields.',
         'fields' => $validated['errors'],
+    ]);
+    exit;
+}
+
+$emailCheck = petition_verify_email_address($validated['data']['email']);
+if (!$emailCheck['ok']) {
+    http_response_code(422);
+    echo json_encode([
+        'ok' => false,
+        'error' => 'Please fix the highlighted fields.',
+        'fields' => [
+            'email' => $emailCheck['error'] ?? 'Enter a valid email address.',
+        ],
     ]);
     exit;
 }
@@ -101,6 +120,7 @@ $namesThreshold = max(1, (int) (petition_config()['names_public_threshold'] ?? 2
 $namesVisible = $count >= $namesThreshold;
 
 // Public payload: character names + relative times only below threshold: omit names.
+// Soft-quarantined names are already omitted by the SQL filter.
 // Never include email. Never pad fake rows.
 $publicRecent = [];
 if ($namesVisible) {

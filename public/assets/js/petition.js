@@ -61,6 +61,10 @@
     if (heroCount) heroCount.setAttribute("data-count", String(n));
     if (signCount) signCount.setAttribute("data-sign-count", String(n));
     if (sigList) sigList.setAttribute("data-count", String(n));
+    const heroLabel = document.querySelector(".hero__meta-label");
+    if (heroLabel) {
+      heroLabel.textContent = n === 1 ? "signature" : "signatures";
+    }
   }
 
   function clearFieldErrors() {
