@@ -92,5 +92,15 @@ function petition_character_name_allowed(string $name): array
         }
     }
 
+    // Catch glued evasion (e.g. "fuckyou") without substring traps like "cock" in "cockatrice".
+    $compactDenylist = [
+        'fuck', 'shit', 'cunt', 'nigger', 'faggot', 'retard', 'porn', 'nazi', 'hitler', 'onlyfans',
+    ];
+    foreach ($compactDenylist as $term) {
+        if (str_contains($compact, $term)) {
+            return ['ok' => false, 'error' => 'Use a Forever character name.'];
+        }
+    }
+
     return ['ok' => true];
 }
