@@ -109,7 +109,12 @@
       const li = document.createElement("li");
       li.className = "sig-list__empty";
       li.id = "sig-empty";
-      li.textContent = "No signatures yet. Be the first.";
+      li.appendChild(document.createTextNode("No names yet. "));
+      const link = document.createElement("a");
+      link.href = "#sign";
+      link.textContent = "Sign with your Forever character";
+      li.appendChild(link);
+      li.appendChild(document.createTextNode(" and open the list."));
       sigList.appendChild(li);
       return;
     }

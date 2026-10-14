@@ -45,12 +45,21 @@ $jsonLd = [
     '@context' => 'https://schema.org',
     '@graph' => [
         [
+            '@type' => 'Organization',
+            '@id' => rtrim($appUrl, '/') . '/#organization',
+            'name' => 'Leave Wow Beta Live',
+            'url' => $appUrl,
+            'description' => $pageDescription,
+            'logo' => rtrim($appUrl, '/') . '/assets/img/icon-192.png',
+        ],
+        [
             '@type' => 'WebSite',
             '@id' => rtrim($appUrl, '/') . '/#website',
             'url' => $appUrl,
             'name' => 'Leave Wow Beta Live',
             'description' => $pageDescription,
             'inLanguage' => 'en',
+            'publisher' => ['@id' => rtrim($appUrl, '/') . '/#organization'],
         ],
         [
             '@type' => 'WebPage',
@@ -60,7 +69,12 @@ $jsonLd = [
             'isPartOf' => ['@id' => rtrim($appUrl, '/') . '/#website'],
             'description' => $pageDescription,
             'primaryImageOfPage' => ['@id' => rtrim($appUrl, '/') . '/#primaryimage'],
+            'dateModified' => gmdate('c'),
             'inLanguage' => 'en',
+            'about' => [
+                '@type' => 'Thing',
+                'name' => 'Keep World of Warcraft Forever beta online until November 4 launch',
+            ],
         ],
         [
             '@type' => 'ImageObject',
@@ -118,6 +132,8 @@ $jsonLd = [
   <title><?= e($pageTitle) ?></title>
   <meta name="description" content="<?= e($pageDescription) ?>">
   <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#05070b">
+  <meta name="color-scheme" content="dark">
   <meta property="og:site_name" content="Leave Wow Beta Live">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="Leave Wow Beta Live | Keep WoW Forever beta online until Nov 4">
@@ -135,16 +151,20 @@ $jsonLd = [
   <meta name="twitter:image:alt" content="World of Warcraft Forever cinematic still for the Leave Wow Beta Live petition">
   <link rel="canonical" href="<?= e($appUrl) ?>">
   <link rel="sitemap" type="application/xml" href="<?= e(rtrim($appUrl, '/') . '/sitemap.xml') ?>">
+  <link rel="icon" href="/assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css?v=12">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=13">
   <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
   <?php if ($siteKey !== ''): ?>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <?php endif; ?>
 </head>
 <body>
+  <a class="skip-link" href="#sign">Skip to petition form</a>
   <header class="site-nav">
     <a class="site-nav__brand" href="#top">
       <span class="site-nav__name">Leave Wow Beta Live</span>
@@ -202,7 +222,11 @@ $jsonLd = [
         </div>
         <p class="hero__meta">
           <span class="hero__count" data-count="<?= (int) $count ?>"><?= number_format($count) ?></span>
-          signatures so far
+          <?php if ((int) $count === 0): ?>
+            signatures so far. Be among the first Forever players to ask.
+          <?php else: ?>
+            signatures so far
+          <?php endif; ?>
         </p>
       </div>
     </section>
@@ -319,7 +343,11 @@ $jsonLd = [
           </p>
           <ol class="sig-list" id="sig-list">
             <?php if ($recent === []): ?>
-              <li class="sig-list__empty" id="sig-empty">No signatures yet. Be the first.</li>
+              <li class="sig-list__empty" id="sig-empty">
+                No names yet.
+                <a href="#sign">Sign with your Forever character</a>
+                and open the list.
+              </li>
             <?php else: ?>
               <?php foreach ($recent as $row): ?>
                 <li>
@@ -347,6 +375,9 @@ $jsonLd = [
           <h2 id="reach-title">Share the ask to keep Forever beta online</h2>
           <p class="section__lede section__lede--wide">
             A petition page alone rarely moves a publisher. Share Leave Wow Beta Live, keep the tone straight, and name the dates: October&nbsp;21 beta take-down, November&nbsp;4 launch. This site is independent and unaffiliated.
+          </p>
+          <p class="reach-hint">
+            Lead with the link, the Oct&nbsp;21 / Nov&nbsp;4 ask, and <a href="https://x.com/Warcraft" target="_blank" rel="noopener noreferrer">@Warcraft</a> when it fits. On X, replies under Forever posts matter more than tags. Skip tags on Reddit.
           </p>
         </header>
 
@@ -452,7 +483,7 @@ $jsonLd = [
             <p>
               <a href="#sign">Sign the petition</a>, then share the link on X, Reddit, Bluesky, or the
               <a href="https://us.forums.blizzard.com/en/wow/" target="_blank" rel="noopener noreferrer">WoW forums</a>.
-              Tag <a href="https://x.com/Warcraft" target="_blank" rel="noopener noreferrer">@Warcraft</a> when it fits. Stay specific about keeping beta up from October&nbsp;21 through November&nbsp;4.
+              Tag <a href="https://x.com/Warcraft" target="_blank" rel="noopener noreferrer">@Warcraft</a> when it fits. Stay specific about keeping beta up from October&nbsp;21 through November&nbsp;4. Plain language beats hashtag piles.
             </p>
           </details>
         </div>
@@ -506,6 +537,6 @@ $jsonLd = [
 
   <a class="mobile-sign" href="#sign">Sign the petition</a>
 
-  <script src="/assets/js/petition.js?v=12" defer></script>
+  <script src="/assets/js/petition.js?v=13" defer></script>
 </body>
 </html>
