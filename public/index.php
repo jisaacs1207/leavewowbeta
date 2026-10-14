@@ -179,14 +179,14 @@ $jsonLd = [
   <meta name="twitter:image:alt" content="Leave Wow Beta Live: keep Forever beta online until Nov 4. leavewowbeta.live">
   <link rel="canonical" href="<?= e($appUrl) ?>">
   <link rel="sitemap" type="application/xml" href="<?= e(rtrim($appUrl, '/') . '/sitemap.xml') ?>">
-  <link rel="icon" href="/favicon.ico?v=16" sizes="any">
-  <link rel="icon" href="/assets/img/favicon.ico?v=16" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=16">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=16">
+  <link rel="icon" href="/favicon.ico?v=17" sizes="any">
+  <link rel="icon" href="/assets/img/favicon.ico?v=17" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=17">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=17">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css?v=16">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=17">
   <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
   <?php if ($siteKey !== ''): ?>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -251,12 +251,15 @@ $jsonLd = [
         </div>
         <p class="hero__meta">
           <span class="hero__count" data-count="<?= (int) $count ?>"><?= number_format($count) ?></span>
+          <?php
+            $sigWord = ((int) $count === 1) ? 'signature' : 'signatures';
+          ?>
           <?php if ((int) $count === 0): ?>
-            signatures so far. Be among the first Forever players to ask, then <a href="#reach">share the link</a>.
+            <?= $sigWord ?> so far. Be among the first Forever players to ask, then <a href="#reach">share the link</a>.
           <?php elseif (!$namesVisible): ?>
-            signatures so far. Real names only. <a href="#reach">Share Leave Wow Beta Live</a> so more Forever players can sign.
+            <?= $sigWord ?> so far. Real names only. <a href="#reach">Share Leave Wow Beta Live</a> so more Forever players can sign.
           <?php else: ?>
-            signatures so far
+            <?= $sigWord ?> so far
           <?php endif; ?>
         </p>
       </div>
@@ -373,7 +376,8 @@ $jsonLd = [
             <?php if ($namesVisible): ?>
               <span id="live-count"><?= number_format($count) ?></span> character names so far. Newest first.
             <?php else: ?>
-              <span id="live-count"><?= number_format($count) ?></span> signatures so far. Names appear as more players sign.
+              <span id="live-count"><?= number_format($count) ?></span>
+              <?= ((int) $count === 1) ? 'signature' : 'signatures' ?> so far. Names appear as more players sign.
             <?php endif; ?>
           </p>
           <ol
@@ -603,6 +607,6 @@ $jsonLd = [
 
   <a class="mobile-sign" href="#sign">Sign the petition</a>
 
-  <script src="/assets/js/petition.js?v=16" defer></script>
+  <script src="/assets/js/petition.js?v=17" defer></script>
 </body>
 </html>
