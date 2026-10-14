@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS signatures (
     email VARCHAR(255) NOT NULL,
     email_hash CHAR(64) NOT NULL,
     character_name VARCHAR(32) NOT NULL,
-    realm VARCHAR(64) NULL DEFAULT NULL,
+    realm VARCHAR(64) NULL DEFAULT NULL, -- unused for new signatures; kept for compatibility
     ip_hash CHAR(64) NULL DEFAULT NULL,
     user_agent_hash CHAR(64) NULL DEFAULT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
