@@ -25,14 +25,14 @@ function e(?string $value): string
     return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-$shareLine = 'Forever beta has been worth playing. Please leave it up until the November 4 launch instead of shutting it down October 21. Sign here:';
+$shareLine = 'Leave Wow Beta Live: keep WoW Forever beta online until the November 4 launch instead of shutting it down October 21. Sign here:';
 $shareTextX = rawurlencode($shareLine . ' @Warcraft');
 $shareUrl = rawurlencode($appUrl);
 $shareTextBluesky = rawurlencode($shareLine . ' ' . $appUrl . ' @Warcraft');
-$redditTitle = rawurlencode('Keep WoW Forever beta online until November 4');
-$mailtoSubject = rawurlencode('Keep Forever beta live until launch');
+$redditTitle = rawurlencode('Leave Wow Beta Live: keep Forever beta online until November 4');
+$mailtoSubject = rawurlencode('Leave Wow Beta Live: keep Forever beta until launch');
 $mailtoBody = rawurlencode(
-    "I signed the community petition asking Blizzard to leave WoW Forever beta online until the November 4 launch.\n\n"
+    "I signed Leave Wow Beta Live, the community petition asking Blizzard to keep WoW Forever beta online until the November 4 launch.\n\n"
     . $appUrl . "\n\n"
     . "Suggested post:\n"
     . $shareLine . ' ' . $appUrl . " @Warcraft\n"
@@ -45,10 +45,10 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>leavewowbeta.live · Keep Forever Beta Until Launch</title>
-  <meta name="description" content="Community petition asking Blizzard to leave World of Warcraft: Forever beta online until the November 4 launch instead of taking it down October 21.">
-  <meta property="og:title" content="Keep WoW Forever beta live until November 4">
-  <meta property="og:description" content="October 21 take-down, November 4 launch. Ask Blizzard to leave Forever beta up. Sign at leavewowbeta.live.">
+  <title>Leave Wow Beta Live · Keep Forever beta until launch</title>
+  <meta name="description" content="Leave Wow Beta Live: a community petition asking Blizzard to keep World of Warcraft: Forever beta online until the November 4 launch instead of taking it down October 21.">
+  <meta property="og:title" content="Leave Wow Beta Live · Keep Forever beta until November 4">
+  <meta property="og:description" content="October 21 take-down, November 4 launch. Ask Blizzard to keep Forever beta live through launch. Sign at leavewowbeta.live.">
   <meta property="og:url" content="<?= e($appUrl) ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= e($ogImage) ?>">
@@ -58,14 +58,17 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css?v=9">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=10">
   <?php if ($siteKey !== ''): ?>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <?php endif; ?>
 </head>
 <body>
   <header class="site-nav">
-    <a class="site-nav__brand" href="#top">leavewowbeta.live</a>
+    <a class="site-nav__brand" href="#top">
+      <span class="site-nav__name">Leave Wow Beta Live</span>
+      <span class="site-nav__domain">leavewowbeta.live</span>
+    </a>
     <nav class="site-nav__links" aria-label="Page">
       <a href="#why">Why</a>
       <a href="#sign">Sign</a>
@@ -100,11 +103,11 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
             height="405"
             decoding="async"
           >
-          <span class="hero__site">leavewowbeta.live</span>
+          <span class="hero__site">Leave Wow Beta Live</span>
         </p>
         <h1 class="hero__title">Keep Forever beta live until launch</h1>
         <p class="hero__lede">
-          Forever beta has been worth the time. Blizzard plans to take it down on October&nbsp;21, with launch on November&nbsp;4. That is almost two weeks with nowhere to play or test. We are asking them to leave the servers up.
+          Forever beta has been worth the time. Blizzard plans to take it down on October&nbsp;21, with launch on November&nbsp;4. That is almost two weeks with nowhere to play or test. We are asking them to keep the servers up.
         </p>
         <p class="hero__dates" aria-label="Key dates">
           <span>Oct&nbsp;21 take-down</span>
@@ -139,7 +142,7 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
           </p>
           <div class="why-note">
             <p>
-              Leave them up and the final stretch stays useful: people keep playing, groups stay together, and issues that only show under real load still have a chance to get caught before November&nbsp;4.
+              Keep the servers up and the final stretch stays useful: people keep playing, groups stay together, and issues that only show under real load still have a chance to get caught before November&nbsp;4.
             </p>
           </div>
         </div>
@@ -261,7 +264,7 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
           <p class="section__eyebrow">Share</p>
           <h2 id="reach-title">Help Blizzard see the ask</h2>
           <p class="section__lede section__lede--wide">
-            A petition page alone rarely moves a publisher. Share the link, keep the tone straight, and point people at the dates: October&nbsp;21 take-down, November&nbsp;4 launch. This site is independent and unaffiliated.
+            A petition page alone rarely moves a publisher. Share Leave Wow Beta Live, keep the tone straight, and point people at the dates: October&nbsp;21 take-down, November&nbsp;4 launch. This site is independent and unaffiliated.
           </p>
         </header>
 
@@ -317,7 +320,7 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
                 when it fits. Stay specific about the October&nbsp;21 / November&nbsp;4 gap.
               </li>
               <li>
-                Leave polite product feedback through
+                Send polite product feedback through
                 <a href="https://us.battle.net/support/en/" target="_blank" rel="noopener noreferrer">Blizzard Support</a>
                 or in-game (ESC, Support, submit feedback). Not a spam channel.
               </li>
@@ -348,7 +351,7 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
           <h2 class="site-footer__title" id="about-title">About this petition</h2>
           <p>
             <strong>Not affiliated.</strong>
-            leavewowbeta.live is an independent, fan-run community petition. It is not affiliated with Blizzard Entertainment, World of Warcraft, or Forever.
+            Leave Wow Beta Live (leavewowbeta.live) is an independent, fan-run community petition asking Blizzard to keep Forever beta online until launch. It is not affiliated with Blizzard Entertainment, World of Warcraft, or Forever.
           </p>
           <p>
             <strong>Privacy.</strong>
