@@ -25,7 +25,7 @@ function e(?string $value): string
     return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-$shareLine = 'Ask Blizzard to leave WoW Forever beta up until the November 4 launch. Taking it down October 21 leaves almost two weeks of dead air. Sign here:';
+$shareLine = 'Forever beta has been worth playing. Please leave it up until the November 4 launch instead of shutting it down October 21. Sign here:';
 $shareTextX = rawurlencode($shareLine . ' @Warcraft');
 $shareUrl = rawurlencode($appUrl);
 $shareTextBluesky = rawurlencode($shareLine . ' ' . $appUrl . ' @Warcraft');
@@ -58,7 +58,7 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css?v=7">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=8">
   <?php if ($siteKey !== ''): ?>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <?php endif; ?>
@@ -104,11 +104,16 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
         </p>
         <h1 class="hero__title">Keep Forever beta live until launch</h1>
         <p class="hero__lede">
-          Blizzard plans to take Forever beta down on October&nbsp;21. Launch is November&nbsp;4. That is almost two weeks offline while people are still learning the game and filing bugs. We want the servers left up.
+          Forever beta has been worth the time. Blizzard plans to take it down on October&nbsp;21, with launch on November&nbsp;4. That is almost two weeks with nowhere to play or test. We are asking them to leave the servers up.
+        </p>
+        <p class="hero__dates" aria-label="Key dates">
+          <span>Oct&nbsp;21 take-down</span>
+          <span class="hero__dates-sep" aria-hidden="true"></span>
+          <span>Nov&nbsp;4 launch</span>
         </p>
         <div class="hero__actions">
           <a class="btn btn--primary" href="#sign">Sign the petition</a>
-          <a class="btn btn--ghost" href="#why">Read why</a>
+          <a class="btn btn--ghost" href="#why">Why it matters</a>
         </div>
         <p class="hero__meta">
           <span class="hero__count" data-count="<?= (int) $count ?>"><?= number_format($count) ?></span>
@@ -120,32 +125,23 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
     <section class="band band--why" id="why" aria-labelledby="why-title">
       <div class="band__media" aria-hidden="true">
         <picture>
-          <source srcset="/assets/img/zone-riverglades.webp" type="image/webp">
-          <img src="/assets/img/zone-riverglades.jpg" alt="" width="1600" height="900" loading="lazy" decoding="async">
+          <source srcset="/assets/img/atmosphere-ashenvale.webp" type="image/webp">
+          <img src="/assets/img/atmosphere-ashenvale.jpg" alt="" width="1600" height="900" loading="lazy" decoding="async">
         </picture>
         <div class="band__veil band__veil--why"></div>
       </div>
       <div class="band__inner">
         <div class="band__copy">
-          <p class="section__eyebrow">The gap</p>
-          <h2 id="why-title">Almost two weeks of silence before day one</h2>
+          <p class="section__eyebrow">Why we’re asking</p>
+          <h2 id="why-title">October&nbsp;21 to November&nbsp;4 is a long stretch to go dark</h2>
           <p class="section__lede">
-            Forever beta is already doing the hard work: real players, real queues, real edge cases. Pulling the plug on October&nbsp;21 opens a dead stretch right before November&nbsp;4.
+            Players are already in Forever beta logging bugs and learning the new systems. Shutting the servers down early cuts that short and leaves a dead week-plus before launch.
           </p>
-          <ul class="reasons">
-            <li>
-              <strong>Testers already showed up</strong>
-              <span>People have been logging bugs and learning systems for weeks. A forced pause throws that rhythm away.</span>
-            </li>
-            <li>
-              <strong>Habits go cold fast</strong>
-              <span>Nearly two weeks offline is long enough for groups to scatter and for launch day to feel like starting over.</span>
-            </li>
-            <li>
-              <strong>Load bugs still need eyes</strong>
-              <span>Economy weirdness, queues, and class issues still show up when lots of players are on. Keep them on.</span>
-            </li>
-          </ul>
+          <div class="why-note">
+            <p>
+              Leave them up and the final stretch stays useful: people keep playing, groups stay together, and issues that only show under real load still have a chance to get caught before November&nbsp;4.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -157,7 +153,7 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
             <source srcset="/assets/img/scenic-camping.webp" type="image/webp">
             <img
               src="/assets/img/scenic-camping.jpg"
-              alt="Players camping under Forever lighting from the official press kit"
+              alt="Players gathered at a camp from the official Forever press kit"
               width="1600"
               height="900"
               loading="lazy"
@@ -167,9 +163,9 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
         </figure>
         <div class="sign-split__form">
           <p class="section__eyebrow">Sign</p>
-          <h2 id="sign-title">Put your character on the list</h2>
+          <h2 id="sign-title">Add your character</h2>
           <p class="section__lede">
-            Email stays private. Your character name shows in the recent list so the page reads like a living roster, not a spreadsheet.
+            Email stays private. Your character name appears with the other signatures. This list is how we show Blizzard that players want beta access through launch.
           </p>
 
           <?php if ($dbError !== null): ?>
@@ -224,14 +220,14 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
     <section class="band band--voices" id="voices" aria-labelledby="voices-title">
       <div class="band__media" aria-hidden="true">
         <picture>
-          <source srcset="/assets/img/cinematic-still-10.webp" type="image/webp">
-          <img src="/assets/img/cinematic-still-10.jpg" alt="" width="1600" height="667" loading="lazy" decoding="async">
+          <source srcset="/assets/img/scenic-camping-alt.webp" type="image/webp">
+          <img src="/assets/img/scenic-camping-alt.jpg" alt="" width="1600" height="900" loading="lazy" decoding="async">
         </picture>
         <div class="band__veil band__veil--voices"></div>
       </div>
       <div class="band__inner band__inner--voices">
         <div class="band__copy">
-          <p class="section__eyebrow">Recent signatures</p>
+          <p class="section__eyebrow">Signatures</p>
           <h2 id="voices-title">Who already signed</h2>
           <p class="section__lede">
             <span id="live-count"><?= number_format($count) ?></span> character names so far. Newest first.
@@ -255,17 +251,17 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
     <section class="band band--reach" id="reach" aria-labelledby="reach-title">
       <div class="band__media" aria-hidden="true">
         <picture>
-          <source srcset="/assets/img/raid-hyjal.webp" type="image/webp">
-          <img src="/assets/img/raid-hyjal.jpg" alt="" width="1600" height="900" loading="lazy" decoding="async">
+          <source srcset="/assets/img/cinematic-still-2.webp" type="image/webp">
+          <img src="/assets/img/cinematic-still-2.jpg" alt="" width="1600" height="666" loading="lazy" decoding="async">
         </picture>
         <div class="band__veil band__veil--reach"></div>
       </div>
       <div class="band__inner">
         <header class="reach-header">
-          <p class="section__eyebrow">Amplify</p>
-          <h2 id="reach-title">Help it reach Blizzard</h2>
+          <p class="section__eyebrow">Share</p>
+          <h2 id="reach-title">Help Blizzard see the ask</h2>
           <p class="section__lede section__lede--wide">
-            Petitions move when people share them in public: tagged posts, forum threads, polite support notes. This site is independent. Use the tools below if you want the ask seen.
+            A petition page alone rarely moves a publisher. Share the link, keep the tone straight, and point people at the dates: October&nbsp;21 take-down, November&nbsp;4 launch. This site is independent and unaffiliated.
           </p>
         </header>
 
@@ -318,7 +314,7 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
               <li>
                 Post and tag
                 <a href="https://x.com/Warcraft" target="_blank" rel="noopener noreferrer">@Warcraft</a>
-                when it fits. Keep the tone straight and specific.
+                when it fits. Stay specific about the October&nbsp;21 / November&nbsp;4 gap.
               </li>
               <li>
                 Leave polite product feedback through
@@ -385,6 +381,6 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
     </section>
   </main>
 
-  <script src="/assets/js/petition.js?v=6" defer></script>
+  <script src="/assets/js/petition.js?v=8" defer></script>
 </body>
 </html>

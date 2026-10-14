@@ -192,11 +192,31 @@ img {
 }
 
 .hero__lede {
-  margin: 0 0 1.75rem;
+  margin: 0 0 1.15rem;
   max-width: 38ch;
   color: rgba(239, 232, 216, 0.84);
   font-size: 1.05rem;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+}
+
+.hero__dates {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.85rem;
+  margin: 0 0 1.5rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+}
+
+.hero__dates-sep {
+  width: 1.25rem;
+  height: 1px;
+  background: rgba(201, 162, 74, 0.55);
 }
 
 .hero__actions {
@@ -378,35 +398,19 @@ h2 {
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
 }
 
-.reasons {
-  list-style: none;
+.why-note {
   margin: 0;
-  padding: 0;
-}
-
-.reasons li {
-  display: grid;
-  gap: 0.3rem;
-  padding: 1rem 0;
+  padding: 1.15rem 0 0;
   border-top: 1px solid var(--line);
-}
-
-.reasons li:last-child {
-  border-bottom: 1px solid var(--line);
-}
-
-.reasons strong {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1rem;
-  letter-spacing: 0.03em;
-  color: var(--ink);
-}
-
-.reasons span {
-  color: rgba(179, 168, 148, 0.95);
-  font-size: 0.95rem;
   max-width: 40ch;
+}
+
+.why-note p {
+  margin: 0;
+  color: rgba(239, 232, 216, 0.82);
+  font-size: 1rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* Sign: scenic + form */
@@ -740,10 +744,23 @@ h2 {
 }
 
 .reach-block {
-  padding: 1.15rem 1.2rem;
-  border: 1px solid rgba(201, 162, 74, 0.18);
-  background: rgba(5, 7, 11, 0.55);
-  backdrop-filter: blur(5px);
+  padding: 0.25rem 0 0;
+  border: none;
+  background: transparent;
+}
+
+.reach-block + .reach-block {
+  padding-top: 0.35rem;
+  border-top: 1px solid rgba(201, 162, 74, 0.18);
+}
+
+@media (min-width: 820px) {
+  .reach-block + .reach-block {
+    padding-top: 0.25rem;
+    padding-left: 1.5rem;
+    border-top: none;
+    border-left: 1px solid rgba(201, 162, 74, 0.2);
+  }
 }
 
 .reach-block h3 {

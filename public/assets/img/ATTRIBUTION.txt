@@ -8,8 +8,11 @@ Files hosted locally (optimized from press kit downloads):
 - atmosphere-ashenvale.jpg/.webp   <- WoW_Forever_SCENIC_Announce_NewLighting_Ashenvale_051.jpg
 - zone-riverglades.jpg/.webp       <- WoW_Camelot_Announce_Zones_Riverglades_037.jpg
 - zone-zephras.jpg/.webp           <- WoW_Camelot_Announce_Zones_Zephras_045.jpg
+- zone-newwater.jpg/.webp          <- WoW_Forever_Announce_Zones_NewWater_008.jpg
 - scenic-camping.jpg/.webp         <- WoW_Forever_SCENIC_Announce_Camping_Players_064.jpg
+- scenic-camping-alt.jpg/.webp     <- WoW_Forever_SCENIC_Announce_Camping_Players_063.jpg
 - raid-hyjal.jpg/.webp             <- WoW_Forever_Announce_Raid_Hyjal_086.jpg
+- cinematic-still-2.jpg/.webp      <- WoW_Forever_Cinematic_Still_2.jpeg
 - cinematic-still-5.jpg/.webp      <- WoW_Forever_Cinematic_Still_5.jpeg
 - cinematic-still-10.jpg/.webp     <- WoW_Forever_Cinematic_Still_10.jpeg
 - og-cinematic.jpg/.webp           <- WoW_Forever_Cinematic_Still_1.jpeg
