@@ -183,6 +183,21 @@
     });
   }
 
+  // Hide sticky mobile CTA while the sign section is in view.
+  const signSection = document.getElementById("sign");
+  const mobileSign = document.querySelector(".mobile-sign");
+  if (signSection && mobileSign && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          document.body.classList.toggle("is-at-sign", entry.isIntersecting);
+        });
+      },
+      { rootMargin: "-20% 0px -35% 0px", threshold: 0.05 }
+    );
+    io.observe(signSection);
+  }
+
   if (!form) return;
 
   form.addEventListener("submit", async (event) => {
