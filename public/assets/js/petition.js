@@ -17,8 +17,9 @@
   // Small client hint list; server filter is authoritative.
   const blockedHints = [
     "fuck", "shit", "asshole", "bitch", "cunt", "dick", "cock", "pussy",
-    "nigger", "nigga", "faggot", "retard", "rape", "nazi", "hitler",
-    "porn", "xxx", "onlyfans",
+    "nigger", "nigga", "faggot", "retard", "rape", "nazi", "hitler", "heil",
+    "kike", "spic", "chink", "pedo", "porn", "xxx", "onlyfans", "loli",
+    "towelhead", "raghead", "whitepower",
   ];
 
   function formatCount(n) {
@@ -55,9 +56,11 @@
   function setCounts(n) {
     animateCount(heroCount, n);
     animateCount(signCount, n);
-    if (liveCount) liveCount.textContent = formatCount(n);
+    const live = document.getElementById("live-count") || liveCount;
+    if (live) live.textContent = formatCount(n);
     if (heroCount) heroCount.setAttribute("data-count", String(n));
     if (signCount) signCount.setAttribute("data-sign-count", String(n));
+    if (sigList) sigList.setAttribute("data-count", String(n));
   }
 
   function clearFieldErrors() {
@@ -102,9 +105,61 @@
     });
   }
 
-  function renderRecent(recent) {
-    if (!sigList || !Array.isArray(recent)) return;
+  function namesThreshold() {
+    if (!sigList) return 25;
+    const n = parseInt(sigList.getAttribute("data-names-threshold") || "25", 10);
+    return Number.isFinite(n) && n > 0 ? n : 25;
+  }
+
+  function updateVoicesLede(count, visible) {
+    const lede = document.getElementById("voices-lede");
+    if (!lede) return;
+    const countSpan = document.createElement("span");
+    countSpan.id = "live-count";
+    countSpan.textContent = formatCount(count);
+    lede.replaceChildren(
+      countSpan,
+      document.createTextNode(
+        visible
+          ? " character names so far. Newest first."
+          : " signatures so far. Names appear as more players sign."
+      )
+    );
+  }
+
+  function renderHeldNamesState() {
+    if (!sigList) return;
     sigList.innerHTML = "";
+    const li = document.createElement("li");
+    li.className = "sig-list__empty";
+    li.id = "sig-empty";
+    li.appendChild(document.createTextNode("Names appear as more players sign. "));
+    const signLink = document.createElement("a");
+    signLink.href = "#sign";
+    signLink.textContent = "Add your Forever character";
+    li.appendChild(signLink);
+    li.appendChild(document.createTextNode(" and "));
+    const shareLink = document.createElement("a");
+    shareLink.href = "#reach";
+    shareLink.textContent = "share the petition";
+    li.appendChild(shareLink);
+    li.appendChild(document.createTextNode(" so the list can open with a real chorus."));
+    sigList.appendChild(li);
+  }
+
+  function renderRecent(recent, count, namesVisible) {
+    if (!sigList || !Array.isArray(recent)) return;
+    const total = typeof count === "number" ? count : parseInt(sigList.getAttribute("data-count") || "0", 10) || 0;
+    const visible =
+      typeof namesVisible === "boolean" ? namesVisible : total >= namesThreshold();
+    sigList.setAttribute("data-count", String(total));
+    sigList.setAttribute("data-names-visible", visible ? "1" : "0");
+    updateVoicesLede(total, visible);
+    sigList.innerHTML = "";
+    if (!visible) {
+      renderHeldNamesState();
+      return;
+    }
     if (recent.length === 0) {
       const li = document.createElement("li");
       li.className = "sig-list__empty";
@@ -249,7 +304,13 @@
       if (typeof data.count === "number") {
         setCounts(data.count);
       }
-      if (data.recent) renderRecent(data.recent);
+      if (data.recent) {
+        renderRecent(
+          data.recent,
+          typeof data.count === "number" ? data.count : undefined,
+          typeof data.names_visible === "boolean" ? data.names_visible : undefined
+        );
+      }
     } catch (_) {
       setStatus("Network error. Check your connection and try again.", false);
     } finally {

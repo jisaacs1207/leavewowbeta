@@ -18,12 +18,18 @@ function petition_blocked_name_terms(): array
         'fuck', 'fucker', 'fucking', 'motherfucker', 'shit', 'bullshit', 'asshole',
         'bastard', 'bitch', 'cunt', 'dick', 'cock', 'pussy', 'twat', 'wank', 'wanker',
         'piss', 'crap', 'slut', 'whore', 'faggot', 'fag', 'dyke', 'tranny',
-        // Sexual / explicit
+        // Sexual / pornographic / exploitative
         'porn', 'porno', 'xxx', 'onlyfans', 'sex', 'sexy', 'nude', 'nudes', 'hentai',
         'cum', 'jizz', 'penis', 'vagina', 'boob', 'boobs', 'tits', 'titty',
-        // Slurs / hate (non-exhaustive; obvious cases)
-        'nigger', 'nigga', 'retard', 'retarded', 'kike', 'spic', 'chink', 'gook',
-        'wetback', 'rape', 'rapist', 'nazi', 'hitler',
+        'pedo', 'pedophile', 'paedo', 'paedophile', 'childporn', 'loli', 'lolicon',
+        'shotacon', 'rape', 'rapist',
+        // Race / ethnicity / antisemitic slurs and obvious hate (non-exhaustive)
+        'nigger', 'nigga', 'kike', 'spic', 'chink', 'gook', 'wetback', 'coon',
+        'towelhead', 'raghead', 'sandnigger', 'sheeny', 'heeb', 'kyke',
+        'retard', 'retarded', 'nazi', 'hitler', 'heil',
+        // Religion / identity attack tokens (whole-word; keep fantasy names working)
+        'christkiller', 'killjews', 'gasjews', 'gasjew', 'jewhater', 'muslimhater',
+        'islamhater', 'burnquran', 'burnkoran', 'whitepower', 'heilhitler',
         // Spam-ish handles that show up as "names"
         'admin', 'moderator', 'blizzard', 'support', 'http', 'https', 'www',
     ];
@@ -95,6 +101,8 @@ function petition_character_name_allowed(string $name): array
     // Catch glued evasion (e.g. "fuckyou") without substring traps like "cock" in "cockatrice".
     $compactDenylist = [
         'fuck', 'shit', 'cunt', 'nigger', 'faggot', 'retard', 'porn', 'nazi', 'hitler', 'onlyfans',
+        'kike', 'pedo', 'childporn', 'heilhitler', 'killjews', 'gasjew', 'whitepower',
+        'towelhead', 'raghead', 'christkiller',
     ];
     foreach ($compactDenylist as $term) {
         if (str_contains($compact, $term)) {

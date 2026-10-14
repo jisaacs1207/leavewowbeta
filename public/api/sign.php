@@ -97,18 +97,27 @@ try {
     $recent = [];
 }
 
-// Public payload: character names + relative times only. Never include email.
-$publicRecent = array_map(static function (array $row): array {
-    return [
-        'character_name' => $row['character_name'],
-        'when' => petition_format_relative_time($row['created_at']),
-        'created_at' => $row['created_at'],
-    ];
-}, $recent);
+$namesThreshold = max(1, (int) (petition_config()['names_public_threshold'] ?? 25));
+$namesVisible = $count >= $namesThreshold;
+
+// Public payload: character names + relative times only below threshold: omit names.
+// Never include email. Never pad fake rows.
+$publicRecent = [];
+if ($namesVisible) {
+    $publicRecent = array_map(static function (array $row): array {
+        return [
+            'character_name' => $row['character_name'],
+            'when' => petition_format_relative_time($row['created_at']),
+            'created_at' => $row['created_at'],
+        ];
+    }, $recent);
+}
 
 echo json_encode([
     'ok' => true,
     'message' => 'Thank you. Your signature was recorded.',
     'count' => $count,
+    'names_visible' => $namesVisible,
+    'names_threshold' => $namesThreshold,
     'recent' => $publicRecent,
 ]);

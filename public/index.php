@@ -11,6 +11,7 @@ $privacyContact = $config['privacy_contact'] ?? 'privacy@leavewowbeta.live';
 $count = 0;
 $recent = [];
 $dbError = null;
+$namesThreshold = max(1, (int) ($config['names_public_threshold'] ?? 25));
 
 try {
     $count = petition_signature_count();
@@ -19,6 +20,9 @@ try {
     $dbError = $config['debug'] ? $e->getMessage() : 'Signatures will appear once the database is connected.';
     error_log('petition: page load db error: ' . $e->getMessage());
 }
+
+$namesVisible = $count >= $namesThreshold;
+$publicRecent = $namesVisible ? $recent : [];
 
 function e(?string $value): string
 {
@@ -38,7 +42,7 @@ $mailtoBody = rawurlencode(
     . $shareLine . ' ' . $appUrl . " @Warcraft\n"
 );
 $suggestedCopy = $shareLine . ' ' . $appUrl . ' @Warcraft';
-$ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
+$ogImage = rtrim($appUrl, '/') . '/assets/img/og-share.jpg';
 $pageTitle = 'Leave Wow Beta Live | Keep WoW Forever Beta Online Until Nov 4';
 $pageDescription = 'Leave Wow Beta Live asks Blizzard to keep WoW Forever beta online after the October 21 take-down through the November 4 launch. Sign the petition at leavewowbeta.live.';
 $jsonLd = [
@@ -81,7 +85,7 @@ $jsonLd = [
             '@id' => rtrim($appUrl, '/') . '/#primaryimage',
             'url' => $ogImage,
             'width' => 1200,
-            'height' => 500,
+            'height' => 630,
         ],
         [
             '@type' => 'FAQPage',
@@ -108,7 +112,7 @@ $jsonLd = [
                     'name' => 'What is Leave Wow Beta Live?',
                     'acceptedAnswer' => [
                         '@type' => 'Answer',
-                        'text' => 'Leave Wow Beta Live (leavewowbeta.live) is an independent community petition asking Blizzard to keep World of Warcraft: Forever beta online until launch. It is not affiliated with Blizzard. Emails stay private; character names may appear in the public signature list.',
+                        'text' => 'Leave Wow Beta Live (leavewowbeta.live) is an independent community petition asking Blizzard to keep World of Warcraft: Forever beta online until launch. It is not affiliated with Blizzard. Emails stay private; character names may appear in the public signature list once enough players have signed.',
                     ],
                 ],
                 [
@@ -117,6 +121,30 @@ $jsonLd = [
                     'acceptedAnswer' => [
                         '@type' => 'Answer',
                         'text' => 'Sign at leavewowbeta.live with your email and Forever character name, then share the link on X, Reddit, Bluesky, or the WoW forums. Tag @Warcraft when it fits and keep the ask specific: keep beta live from October 21 through November 4.',
+                    ],
+                ],
+                [
+                    '@type' => 'Question',
+                    'name' => 'Is Leave Wow Beta Live an official Blizzard petition?',
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => 'No. Leave Wow Beta Live is an independent, fan-run community petition. It is not affiliated with Blizzard Entertainment, World of Warcraft, or Forever.',
+                    ],
+                ],
+                [
+                    '@type' => 'Question',
+                    'name' => 'Is my email shown publicly if I sign?',
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => 'No. Emails stay private and are used only to verify and deliver this petition. Character names may appear in the public list once enough players have signed. For deletion or access requests, email privacy@leavewowbeta.live.',
+                    ],
+                ],
+                [
+                    '@type' => 'Question',
+                    'name' => 'Does signing guarantee Forever beta stays online?',
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => 'No. This petition is a player ask, not a promise from Blizzard. Signing and sharing still helps show clear demand to keep Forever beta online from October 21 through the November 4 launch.',
                     ],
                 ],
             ],
@@ -141,23 +169,24 @@ $jsonLd = [
   <meta property="og:url" content="<?= e($appUrl) ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= e($ogImage) ?>">
-  <meta property="og:image:alt" content="World of Warcraft Forever cinematic still for the Leave Wow Beta Live petition">
+  <meta property="og:image:alt" content="Leave Wow Beta Live: keep Forever beta online until Nov 4. leavewowbeta.live">
   <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="500">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Leave Wow Beta Live | Keep Forever beta online until Nov 4">
   <meta name="twitter:description" content="Petition Blizzard to keep WoW Forever beta up after October 21 through the November 4 launch.">
   <meta name="twitter:image" content="<?= e($ogImage) ?>">
-  <meta name="twitter:image:alt" content="World of Warcraft Forever cinematic still for the Leave Wow Beta Live petition">
+  <meta name="twitter:image:alt" content="Leave Wow Beta Live: keep Forever beta online until Nov 4. leavewowbeta.live">
   <link rel="canonical" href="<?= e($appUrl) ?>">
   <link rel="sitemap" type="application/xml" href="<?= e(rtrim($appUrl, '/') . '/sitemap.xml') ?>">
-  <link rel="icon" href="/assets/img/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
-  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="icon" href="/favicon.ico?v=14" sizes="any">
+  <link rel="icon" href="/assets/img/favicon.ico?v=14" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png?v=14">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=14">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css?v=13">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=14">
   <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
   <?php if ($siteKey !== ''): ?>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -223,7 +252,9 @@ $jsonLd = [
         <p class="hero__meta">
           <span class="hero__count" data-count="<?= (int) $count ?>"><?= number_format($count) ?></span>
           <?php if ((int) $count === 0): ?>
-            signatures so far. Be among the first Forever players to ask.
+            signatures so far. Be among the first Forever players to ask, then <a href="#reach">share the link</a>.
+          <?php elseif (!$namesVisible): ?>
+            signatures so far. Real names only. <a href="#reach">Share Leave Wow Beta Live</a> so more Forever players can sign.
           <?php else: ?>
             signatures so far
           <?php endif; ?>
@@ -274,7 +305,7 @@ $jsonLd = [
           <p class="section__eyebrow">Sign</p>
           <h2 id="sign-title">Sign the petition to keep Forever beta online</h2>
           <p class="section__lede">
-            Email stays private. Your character name appears with the other signatures. This list is how we show Blizzard that players want Forever beta access through launch.
+            Email stays private. Character names appear in the public list once enough players have signed, so the chorus looks serious. Until then we show the honest count and ask you to share.
           </p>
 
           <?php if ($dbError !== null): ?>
@@ -338,18 +369,34 @@ $jsonLd = [
         <div class="band__copy">
           <p class="section__eyebrow">Signatures</p>
           <h2 id="voices-title">Players who signed Leave Wow Beta Live</h2>
-          <p class="section__lede">
-            <span id="live-count"><?= number_format($count) ?></span> character names so far. Newest first.
+          <p class="section__lede" id="voices-lede">
+            <?php if ($namesVisible): ?>
+              <span id="live-count"><?= number_format($count) ?></span> character names so far. Newest first.
+            <?php else: ?>
+              <span id="live-count"><?= number_format($count) ?></span> signatures so far. Names appear as more players sign.
+            <?php endif; ?>
           </p>
-          <ol class="sig-list" id="sig-list">
-            <?php if ($recent === []): ?>
+          <ol
+            class="sig-list"
+            id="sig-list"
+            data-names-threshold="<?= (int) $namesThreshold ?>"
+            data-names-visible="<?= $namesVisible ? '1' : '0' ?>"
+            data-count="<?= (int) $count ?>"
+          >
+            <?php if (!$namesVisible): ?>
+              <li class="sig-list__empty" id="sig-empty">
+                Names appear as more players sign.
+                <a href="#sign">Add your Forever character</a>
+                and <a href="#reach">share the petition</a> so the list can open with a real chorus.
+              </li>
+            <?php elseif ($publicRecent === []): ?>
               <li class="sig-list__empty" id="sig-empty">
                 No names yet.
                 <a href="#sign">Sign with your Forever character</a>
                 and open the list.
               </li>
             <?php else: ?>
-              <?php foreach ($recent as $row): ?>
+              <?php foreach ($publicRecent as $row): ?>
                 <li>
                   <span class="sig-list__name"><?= e($row['character_name']) ?></span>
                   <time datetime="<?= e($row['created_at']) ?>"><?= e(petition_format_relative_time($row['created_at'])) ?></time>
@@ -486,6 +533,25 @@ $jsonLd = [
               Tag <a href="https://x.com/Warcraft" target="_blank" rel="noopener noreferrer">@Warcraft</a> when it fits. Stay specific about keeping beta up from October&nbsp;21 through November&nbsp;4. Plain language beats hashtag piles.
             </p>
           </details>
+          <details class="faq-item">
+            <summary>Is Leave Wow Beta Live an official Blizzard petition?</summary>
+            <p>
+              No. Leave Wow Beta Live is an independent, fan-run community petition. It is not affiliated with Blizzard Entertainment, World of Warcraft, or Forever.
+            </p>
+          </details>
+          <details class="faq-item">
+            <summary>Is my email shown publicly if I sign?</summary>
+            <p>
+              No. Emails stay private and are used only to verify and deliver this petition. Character names may appear in the public list once enough players have signed. For deletion or access requests, email
+              <a href="mailto:<?= e($privacyContact) ?>"><?= e($privacyContact) ?></a>.
+            </p>
+          </details>
+          <details class="faq-item">
+            <summary>Does signing guarantee Forever beta stays online?</summary>
+            <p>
+              No. This petition is a player ask, not a promise from Blizzard. Signing and sharing still helps show clear demand to keep Forever beta online from October&nbsp;21 through the November&nbsp;4 launch.
+            </p>
+          </details>
         </div>
       </div>
     </section>
@@ -537,6 +603,6 @@ $jsonLd = [
 
   <a class="mobile-sign" href="#sign">Sign the petition</a>
 
-  <script src="/assets/js/petition.js?v=13" defer></script>
+  <script src="/assets/js/petition.js?v=14" defer></script>
 </body>
 </html>

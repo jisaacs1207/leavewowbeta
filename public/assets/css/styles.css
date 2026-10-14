@@ -127,6 +127,13 @@ img {
   justify-content: space-between;
   gap: 1rem;
   padding: 1.1rem clamp(1rem, 4vw, 2.5rem);
+  /* Soft bar so upper-right links stay readable on bright hero sky */
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 7, 11, 0.72) 0%,
+    rgba(5, 7, 11, 0.38) 55%,
+    rgba(5, 7, 11, 0) 100%
+  );
 }
 
 .site-nav__brand {
@@ -135,9 +142,11 @@ img {
   gap: 0.12rem;
   font-family: var(--font-display);
   font-weight: 500;
-  color: var(--gold);
+  color: var(--gold-bright);
   text-decoration: none;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 2px 16px rgba(0, 0, 0, 0.75);
 }
 
 .site-nav__name {
@@ -150,8 +159,11 @@ img {
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.02em;
-  color: rgba(239, 232, 216, 0.65);
+  color: rgba(239, 232, 216, 0.88);
   text-transform: lowercase;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 2px 12px rgba(0, 0, 0, 0.7);
 }
 
 .site-nav__links {
@@ -162,15 +174,18 @@ img {
 }
 
 .site-nav__links a {
-  color: rgba(239, 232, 216, 0.82);
+  color: #f6f0e2;
   text-decoration: none;
   font-size: 0.9rem;
-  font-weight: 500;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 2px 14px rgba(0, 0, 0, 0.8);
 }
 
 .site-nav__links a:hover {
-  color: var(--ink);
+  color: #fff8ea;
 }
 
 /* Hero */
@@ -301,7 +316,17 @@ img {
   color: var(--ink-muted);
   border-top: 1px solid var(--line);
   padding-top: 1rem;
-  max-width: 22rem;
+  max-width: 26rem;
+}
+
+.hero__meta a {
+  color: var(--gold-bright);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.hero__meta a:hover {
+  color: #fff8ea;
 }
 
 .hero__count {

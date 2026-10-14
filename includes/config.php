@@ -102,6 +102,8 @@ function petition_config(): array
         ],
         'app_url' => rtrim(env('APP_URL', 'https://leavewowbeta.live') ?? 'https://leavewowbeta.live', '/'),
         'privacy_contact' => env('PRIVACY_CONTACT', 'privacy@leavewowbeta.live'),
+        // Public recent-name list unlocks at this real signature count (never padded).
+        'names_public_threshold' => env_int('NAMES_PUBLIC_THRESHOLD', 25),
         'debug' => env_bool('APP_DEBUG', false),
         'hash_pepper' => env('HASH_PEPPER', env('DB_PASS', 'leavewowbeta-pepper')),
     ];

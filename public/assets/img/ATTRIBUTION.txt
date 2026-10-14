@@ -16,6 +16,7 @@ Files hosted locally (optimized from press kit downloads):
 - cinematic-still-5.jpg/.webp      <- WoW_Forever_Cinematic_Still_5.jpeg
 - cinematic-still-10.jpg/.webp     <- WoW_Forever_Cinematic_Still_10.jpeg
 - og-cinematic.jpg/.webp           <- WoW_Forever_Cinematic_Still_1.jpeg
+- og-share.jpg/.webp               <- share card composed from Cinematic_Still_2 + Forever logo + petition text
 - wow-forever-logo-white.png       <- WoW_Forever_Logo_Vector_White_enUS.png
 - wow-forever-logo.png             <- WoW_Forever_Logo.png
 
