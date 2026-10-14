@@ -35,6 +35,8 @@ function petition_sanitize_character_name(string $name): string
  */
 function petition_validate_signature_input(array $input): array
 {
+    require_once __DIR__ . '/name_filter.php';
+
     $errors = [];
 
     $email = petition_normalize_email((string) ($input['email'] ?? ''));
@@ -53,6 +55,11 @@ function petition_validate_signature_input(array $input): array
         $errors['character_name'] = 'Character name must be 32 characters or fewer.';
     } elseif (!preg_match('/^[\p{L}][\p{L}\s\-\']{0,31}$/u', $character)) {
         $errors['character_name'] = 'Character name may only contain letters, spaces, hyphens, or apostrophes.';
+    } else {
+        $allowed = petition_character_name_allowed($character);
+        if (!$allowed['ok']) {
+            $errors['character_name'] = $allowed['error'] ?? 'Use a Forever character name.';
+        }
     }
 
     return [

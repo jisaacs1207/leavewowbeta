@@ -4,7 +4,14 @@ Blizzard Entertainment Press Center (Gamespress)
 
 Files hosted locally (optimized from press kit downloads):
 - hero-key-art-alliance.jpg/.webp  <- WoW_Forever_Announce_Key_Art_-_Alliance.jpg
+- hero-key-art-horde.jpg/.webp     <- WoW_Forever_Announce_Key_Art_-_Horde.jpg
 - atmosphere-ashenvale.jpg/.webp   <- WoW_Forever_SCENIC_Announce_NewLighting_Ashenvale_051.jpg
+- zone-riverglades.jpg/.webp       <- WoW_Camelot_Announce_Zones_Riverglades_037.jpg
+- zone-zephras.jpg/.webp           <- WoW_Camelot_Announce_Zones_Zephras_045.jpg
+- scenic-camping.jpg/.webp         <- WoW_Forever_SCENIC_Announce_Camping_Players_064.jpg
+- raid-hyjal.jpg/.webp             <- WoW_Forever_Announce_Raid_Hyjal_086.jpg
+- cinematic-still-5.jpg/.webp      <- WoW_Forever_Cinematic_Still_5.jpeg
+- cinematic-still-10.jpg/.webp     <- WoW_Forever_Cinematic_Still_10.jpeg
 - og-cinematic.jpg/.webp           <- WoW_Forever_Cinematic_Still_1.jpeg
 - wow-forever-logo-white.png       <- WoW_Forever_Logo_Vector_White_enUS.png
 - wow-forever-logo.png             <- WoW_Forever_Logo.png

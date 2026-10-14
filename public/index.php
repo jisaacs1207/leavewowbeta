@@ -25,11 +25,11 @@ function e(?string $value): string
     return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-$shareLine = 'Keep WoW Forever beta live until the November 4 launch. Players do not want a nearly two-week gap after October 21. Sign and amplify:';
+$shareLine = 'Ask Blizzard to leave WoW Forever beta up until the November 4 launch. Taking it down October 21 leaves almost two weeks of dead air. Sign here:';
 $shareTextX = rawurlencode($shareLine . ' @Warcraft');
 $shareUrl = rawurlencode($appUrl);
 $shareTextBluesky = rawurlencode($shareLine . ' ' . $appUrl . ' @Warcraft');
-$redditTitle = rawurlencode('Keep WoW Forever beta live until the November 4 launch');
+$redditTitle = rawurlencode('Keep WoW Forever beta online until November 4');
 $mailtoSubject = rawurlencode('Keep Forever beta live until launch');
 $mailtoBody = rawurlencode(
     "I signed the community petition asking Blizzard to leave WoW Forever beta online until the November 4 launch.\n\n"
@@ -46,9 +46,9 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>leavewowbeta.live · Keep Forever Beta Until Launch</title>
-  <meta name="description" content="Petition Blizzard to leave World of Warcraft: Forever beta online until the November 4th launch. No two-week gap.">
+  <meta name="description" content="Community petition asking Blizzard to leave World of Warcraft: Forever beta online until the November 4 launch instead of taking it down October 21.">
   <meta property="og:title" content="Keep WoW Forever beta live until November 4">
-  <meta property="og:description" content="Players are asking Blizzard not to shut down Forever beta on October 21. Sign at leavewowbeta.live.">
+  <meta property="og:description" content="October 21 take-down, November 4 launch. Ask Blizzard to leave Forever beta up. Sign at leavewowbeta.live.">
   <meta property="og:url" content="<?= e($appUrl) ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= e($ogImage) ?>">
@@ -58,7 +58,7 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css?v=4">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=6">
   <?php if ($siteKey !== ''): ?>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <?php endif; ?>
@@ -104,48 +104,60 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
         </p>
         <h1 class="hero__title">Keep Forever beta live until launch</h1>
         <p class="hero__lede">
-          Players are enjoying the beta and do not want a nearly two-week gap from the October&nbsp;21 take-down to the November&nbsp;4 launch. We are asking Blizzard to leave Forever beta online so the community can keep testing through release week.
+          Blizzard plans to take Forever beta down on October&nbsp;21. Launch is November&nbsp;4. That is almost two weeks offline while people are still learning the game and filing bugs. We want the servers left up.
         </p>
         <div class="hero__actions">
           <a class="btn btn--primary" href="#sign">Sign the petition</a>
-          <a class="btn btn--ghost" href="#why">Why it matters</a>
+          <a class="btn btn--ghost" href="#why">Read why</a>
         </div>
         <p class="hero__meta">
           <span class="hero__count" data-count="<?= (int) $count ?>"><?= number_format($count) ?></span>
-          signatures and counting
+          signatures so far
         </p>
       </div>
     </section>
 
-    <section class="section section--why" id="why" aria-labelledby="why-title">
-      <div class="section__inner why-split">
-        <div class="why-split__copy">
-          <p class="section__eyebrow">Why it matters</p>
-          <h2 id="why-title">Do not let the gap break the momentum</h2>
+    <section class="band band--why" id="why" aria-labelledby="why-title">
+      <div class="band__media" aria-hidden="true">
+        <picture>
+          <source srcset="/assets/img/zone-riverglades.webp" type="image/webp">
+          <img src="/assets/img/zone-riverglades.jpg" alt="" width="1600" height="900" loading="lazy" decoding="async">
+        </picture>
+        <div class="band__veil band__veil--why"></div>
+      </div>
+      <div class="band__inner">
+        <div class="band__copy">
+          <p class="section__eyebrow">The gap</p>
+          <h2 id="why-title">Almost two weeks of silence before day one</h2>
           <p class="section__lede">
-            Forever’s beta is live feedback and a world players already care about. Pulling servers offline on October&nbsp;21 creates a quiet stretch right when polish, scale, and launch-week bugs still need eyes on them.
+            Forever beta is already doing the hard work: real players, real queues, real edge cases. Pulling the plug on October&nbsp;21 opens a dead stretch right before November&nbsp;4.
           </p>
           <ul class="reasons">
             <li>
-              <strong>Players already showed up</strong>
-              <span>Beta testers gave their time. A forced pause before November&nbsp;4 is frustrating for people who have been helping shape the launch.</span>
+              <strong>Testers already showed up</strong>
+              <span>People have been logging bugs and learning systems for weeks. A forced pause throws that rhythm away.</span>
             </li>
             <li>
-              <strong>Keep the momentum</strong>
-              <span>That nearly two-week gap lets excitement fade. Leave the servers up so day one does not start from a cold stop.</span>
+              <strong>Habits go cold fast</strong>
+              <span>Nearly two weeks offline is long enough for groups to scatter and for launch day to feel like starting over.</span>
             </li>
             <li>
-              <strong>A smoother November&nbsp;4</strong>
-              <span>Continued testing can still surface economy, queue, and systems issues under real load, and help smooth release week.</span>
+              <strong>Load bugs still need eyes</strong>
+              <span>Economy weirdness, queues, and class issues still show up when lots of players are on. Keep them on.</span>
             </li>
           </ul>
         </div>
-        <figure class="why-split__visual">
+      </div>
+    </section>
+
+    <section class="section section--sign" id="sign" aria-labelledby="sign-title">
+      <div class="section__inner sign-split">
+        <figure class="sign-split__visual">
           <picture>
-            <source srcset="/assets/img/atmosphere-ashenvale.webp" type="image/webp">
+            <source srcset="/assets/img/scenic-camping.webp" type="image/webp">
             <img
-              src="/assets/img/atmosphere-ashenvale.jpg"
-              alt="Scenic view of Ashenvale from the official World of Warcraft Forever press kit"
+              src="/assets/img/scenic-camping.jpg"
+              alt="Players camping under Forever lighting from the official press kit"
               width="1600"
               height="900"
               loading="lazy"
@@ -153,89 +165,109 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
             >
           </picture>
         </figure>
-      </div>
-    </section>
+        <div class="sign-split__form">
+          <p class="section__eyebrow">Sign</p>
+          <h2 id="sign-title">Put your character on the list</h2>
+          <p class="section__lede">
+            Email stays private. Your character name shows in the recent list so the page reads like a living roster, not a spreadsheet.
+          </p>
 
-    <section class="section section--sign" id="sign" aria-labelledby="sign-title">
-      <div class="section__inner section__inner--form">
-        <p class="section__eyebrow">The petition</p>
-        <h2 id="sign-title">Add your signature</h2>
-        <p class="section__lede">
-          Provide an email and character name. Emails are never shown publicly. Character names appear in the recent signatures list.
-        </p>
+          <?php if ($dbError !== null): ?>
+            <p class="form-banner form-banner--warn" role="status"><?= e($dbError) ?></p>
+          <?php endif; ?>
 
-        <?php if ($dbError !== null): ?>
-          <p class="form-banner form-banner--warn" role="status"><?= e($dbError) ?></p>
-        <?php endif; ?>
-
-        <form class="petition-form" id="petition-form" action="/api/sign.php" method="post" novalidate>
-          <div class="hp" aria-hidden="true">
-            <label for="website">Website</label>
-            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-          </div>
-
-          <div class="field">
-            <label for="email">Email <span class="req">required</span></label>
-            <input type="email" id="email" name="email" required maxlength="255" autocomplete="email" placeholder="name@example.com">
-            <p class="field__hint">Used only to verify and deliver this petition.</p>
-            <p class="field__error" data-error-for="email" hidden></p>
-          </div>
-
-          <div class="field">
-            <label for="character_name">Character name <span class="req">required</span></label>
-            <input type="text" id="character_name" name="character_name" required maxlength="32" autocomplete="nickname" placeholder="Character name">
-            <p class="field__hint">As it appears in Forever.</p>
-            <p class="field__error" data-error-for="character_name" hidden></p>
-          </div>
-
-          <?php if ($siteKey !== ''): ?>
-            <div class="turnstile-wrap">
-              <div class="cf-turnstile" data-sitekey="<?= e($siteKey) ?>" data-theme="dark"></div>
+          <form class="petition-form" id="petition-form" action="/api/sign.php" method="post" novalidate>
+            <div class="hp" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
             </div>
-          <?php else: ?>
-            <p class="form-banner form-banner--warn" role="status">
-              Turnstile site key is not configured yet. Set <code>TURNSTILE_SITE_KEY</code> before going live.
-            </p>
-          <?php endif; ?>
 
-          <button type="submit" class="btn btn--primary btn--block" id="submit-btn">
-            Sign the petition
-          </button>
+            <div class="field">
+              <label for="email">Email <span class="req">required</span></label>
+              <input type="email" id="email" name="email" required maxlength="255" autocomplete="email" placeholder="name@example.com">
+              <p class="field__hint">Only for verifying and delivering this petition. Never shown publicly.</p>
+              <p class="field__error" data-error-for="email" hidden></p>
+            </div>
 
-          <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
-        </form>
+            <div class="field">
+              <label for="character_name">Character name <span class="req">required</span></label>
+              <input type="text" id="character_name" name="character_name" required maxlength="32" autocomplete="nickname" placeholder="Character name" spellcheck="false">
+              <p class="field__hint">As it appears in Forever.</p>
+              <p class="field__error" data-error-for="character_name" hidden></p>
+            </div>
+
+            <?php if ($siteKey !== ''): ?>
+              <div class="turnstile-wrap">
+                <div class="cf-turnstile" data-sitekey="<?= e($siteKey) ?>" data-theme="dark"></div>
+              </div>
+            <?php else: ?>
+              <p class="form-banner form-banner--warn" role="status">
+                Turnstile site key is not configured yet. Set <code>TURNSTILE_SITE_KEY</code> before going live.
+              </p>
+            <?php endif; ?>
+
+            <button type="submit" class="btn btn--primary btn--block" id="submit-btn">
+              Sign the petition
+            </button>
+
+            <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
+          </form>
+
+          <p class="sign-split__count">
+            <span class="sign-split__count-num" data-sign-count="<?= (int) $count ?>"><?= number_format($count) ?></span>
+            on the petition
+          </p>
+        </div>
       </div>
     </section>
 
-    <section class="section section--voices" id="voices" aria-labelledby="voices-title">
-      <div class="section__inner">
-        <p class="section__eyebrow">Community</p>
-        <h2 id="voices-title">Recent signatures</h2>
-        <p class="section__lede">
-          <span id="live-count"><?= number_format($count) ?></span> adventurers standing with Forever beta through launch.
-        </p>
-        <ol class="sig-list" id="sig-list">
-          <?php if ($recent === []): ?>
-            <li class="sig-list__empty" id="sig-empty">Be the first to sign.</li>
-          <?php else: ?>
-            <?php foreach ($recent as $row): ?>
-              <li>
-                <span class="sig-list__name"><?= e($row['character_name']) ?></span>
-                <time datetime="<?= e($row['created_at']) ?>"><?= e(petition_format_relative_time($row['created_at'])) ?></time>
-              </li>
-            <?php endforeach; ?>
-          <?php endif; ?>
-        </ol>
+    <section class="band band--voices" id="voices" aria-labelledby="voices-title">
+      <div class="band__media" aria-hidden="true">
+        <picture>
+          <source srcset="/assets/img/cinematic-still-10.webp" type="image/webp">
+          <img src="/assets/img/cinematic-still-10.jpg" alt="" width="1600" height="667" loading="lazy" decoding="async">
+        </picture>
+        <div class="band__veil band__veil--voices"></div>
+      </div>
+      <div class="band__inner band__inner--voices">
+        <div class="band__copy">
+          <p class="section__eyebrow">Recent signatures</p>
+          <h2 id="voices-title">Who already signed</h2>
+          <p class="section__lede">
+            <span id="live-count"><?= number_format($count) ?></span> character names so far. Newest first.
+          </p>
+          <ol class="sig-list" id="sig-list">
+            <?php if ($recent === []): ?>
+              <li class="sig-list__empty" id="sig-empty">No signatures yet. Be the first.</li>
+            <?php else: ?>
+              <?php foreach ($recent as $row): ?>
+                <li>
+                  <span class="sig-list__name"><?= e($row['character_name']) ?></span>
+                  <time datetime="<?= e($row['created_at']) ?>"><?= e(petition_format_relative_time($row['created_at'])) ?></time>
+                </li>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </ol>
+        </div>
       </div>
     </section>
 
-    <section class="section section--reach" id="reach" aria-labelledby="reach-title">
-      <div class="section__inner">
-        <p class="section__eyebrow">Amplify</p>
-        <h2 id="reach-title">Help it reach Blizzard</h2>
-        <p class="section__lede section__lede--wide">
-          Successful community asks travel beyond a single page: clear share posts, tagged official accounts, forum threads, and polite support feedback. This site is independent and unaffiliated. Use the tools below to send the ask further.
-        </p>
+    <section class="band band--reach" id="reach" aria-labelledby="reach-title">
+      <div class="band__media" aria-hidden="true">
+        <picture>
+          <source srcset="/assets/img/raid-hyjal.webp" type="image/webp">
+          <img src="/assets/img/raid-hyjal.jpg" alt="" width="1600" height="900" loading="lazy" decoding="async">
+        </picture>
+        <div class="band__veil band__veil--reach"></div>
+      </div>
+      <div class="band__inner">
+        <header class="reach-header">
+          <p class="section__eyebrow">Amplify</p>
+          <h2 id="reach-title">Help it reach Blizzard</h2>
+          <p class="section__lede section__lede--wide">
+            Petitions move when people share them in public: tagged posts, forum threads, polite support notes. This site is independent. Use the tools below if you want the ask seen.
+          </p>
+        </header>
 
         <div class="reach-panel">
           <div class="share-row">
@@ -271,78 +303,88 @@ $ogImage = rtrim($appUrl, '/') . '/assets/img/og-cinematic.jpg';
               <svg class="share-btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 10.8c-1.09-2.12-4.05-6.07-6.8-8.01C3.34.98 2.5 1.51 2.5 3.12c0 .72.38 6.02.62 6.9.8 2.9 3.42 3.88 5.86 3.57-4.2.62-5.6 2.66-3.15 4.72 2.63 2.22 6.68-.22 6.68-.22s4.05 2.44 6.68.22c2.45-2.06 1.05-4.1-3.15-4.72 2.44.31 5.06-.67 5.86-3.57.24-.88.62-6.18.62-6.9 0-1.61-.84-2.14-2.7-.33-2.75 1.94-5.71 5.89-6.8 8.01z"/></svg>
               <span>Bluesky</span>
             </a>
-            <a
-              class="share-btn"
-              href="https://www.facebook.com/sharer/sharer.php?u=<?= $shareUrl ?>"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg class="share-btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.25-1.5 1.55-1.5H16.8V4.6c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.2H8.2V14h2.5v8h2.8z"/></svg>
-              <span>Facebook</span>
-            </a>
           </div>
         </div>
 
         <div class="reach-grid">
           <div class="reach-block">
-            <h3>Suggested share copy</h3>
+            <h3>Suggested post</h3>
             <p class="suggested-copy" id="suggested-copy"><?= e($suggestedCopy) ?></p>
-            <button type="button" class="btn btn--ghost btn--compact" id="copy-suggested">Copy suggested text</button>
+            <button type="button" class="btn btn--ghost btn--compact" id="copy-suggested">Copy text</button>
           </div>
           <div class="reach-block">
-            <h3>Send it further</h3>
+            <h3>Where else to send it</h3>
             <ul class="reach-list">
               <li>
-                Post on X, Reddit, or Bluesky and mention
+                Post and tag
                 <a href="https://x.com/Warcraft" target="_blank" rel="noopener noreferrer">@Warcraft</a>
-                where appropriate. Keep it professional and on-message.
+                when it fits. Keep the tone straight and specific.
               </li>
               <li>
-                Open a polite note via
+                Leave polite product feedback through
                 <a href="https://us.battle.net/support/en/" target="_blank" rel="noopener noreferrer">Blizzard Support</a>
-                or share feedback in-game (ESC, then Support, then submit feedback). Support tickets are for legitimate product feedback, not mass spam.
+                or in-game (ESC, Support, submit feedback). Not a spam channel.
               </li>
               <li>
-                Start or join a discussion on the
-                <a href="https://us.forums.blizzard.com/en/wow/" target="_blank" rel="noopener noreferrer">World of Warcraft forums</a>
-                or community megathreads. Link the petition; do not claim official affiliation.
+                Start or join a thread on the
+                <a href="https://us.forums.blizzard.com/en/wow/" target="_blank" rel="noopener noreferrer">WoW forums</a>
+                or community megathreads. Link the petition. Do not claim official status.
               </li>
               <li>
                 <a href="mailto:?subject=<?= $mailtoSubject ?>&body=<?= $mailtoBody ?>">Email yourself</a>
-                a ready draft to forward to friends.
+                a draft to forward to friends.
               </li>
             </ul>
           </div>
         </div>
       </div>
     </section>
+
+    <section class="section section--about" id="legal" aria-labelledby="about-title">
+      <div class="section__inner about-split">
+        <figure class="about-split__visual" aria-hidden="true">
+          <picture>
+            <source srcset="/assets/img/zone-zephras.webp" type="image/webp">
+            <img src="/assets/img/zone-zephras.jpg" alt="" width="1600" height="900" loading="lazy" decoding="async">
+          </picture>
+        </figure>
+        <div class="about-split__copy site-footer">
+          <h2 class="site-footer__title" id="about-title">About this petition</h2>
+          <p>
+            <strong>Not affiliated.</strong>
+            leavewowbeta.live is an independent, fan-run community petition. It is not affiliated with Blizzard Entertainment, World of Warcraft, or Forever.
+          </p>
+          <p>
+            <strong>Privacy.</strong>
+            Emails are never sold and never shown publicly. Character names may appear in the public list.
+            Questions or deletion requests:
+            <a href="mailto:<?= e($privacyContact) ?>"><?= e($privacyContact) ?></a>.
+          </p>
+
+          <details class="legal-more">
+            <summary>More legal and privacy</summary>
+            <div class="legal-more__body">
+              <p>
+                World of Warcraft®, Blizzard Entertainment®, and related marks are trademarks of their respective owners.
+                Press imagery on this page comes from Blizzard’s official
+                <a href="https://blizzard.gamespress.com/wowforeverreveal" rel="noopener noreferrer">Forever press / media kit</a>
+                where applicable.
+              </p>
+              <p>
+                Emails are used only to run, verify, and deliver this petition (authenticity, counting, and possible later delivery to Blizzard).
+                Uniqueness is enforced with a server-side email hash; the email itself is stored only on the server.
+              </p>
+              <p>
+                If you are in the EEA, UK, California, or a similar jurisdiction, you may request access to or deletion of your signature data by emailing
+                <a href="mailto:<?= e($privacyContact) ?>"><?= e($privacyContact) ?></a>.
+              </p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer" id="legal">
-    <div class="site-footer__inner">
-      <h2 class="site-footer__title">About this petition</h2>
-      <p>
-        <strong>Not affiliated.</strong>
-        leavewowbeta.live is an independent, fan-run community petition. It is not affiliated with Blizzard Entertainment, World of Warcraft, or Forever.
-        World of Warcraft®, Blizzard Entertainment®, and related marks are trademarks of their respective owners.
-        Press imagery on this page is used from Blizzard’s official
-        <a href="https://blizzard.gamespress.com/wowforeverreveal" rel="noopener noreferrer">Forever press / media kit</a>
-        where applicable.
-      </p>
-      <p>
-        <strong>Privacy.</strong>
-        Emails are used only to run, verify, and deliver this petition (for example authenticity, counting, and possible later delivery to Blizzard).
-        Emails are never sold and never shown publicly. Character names may appear in the public signature list.
-        Uniqueness is enforced with a server-side email hash; the email itself is stored only on the server.
-      </p>
-      <p>
-        <strong>Your rights.</strong>
-        If you are in the EEA, UK, California, or a similar jurisdiction, you may request access to or deletion of your signature data by emailing
-        <a href="mailto:<?= e($privacyContact) ?>"><?= e($privacyContact) ?></a>.
-      </p>
-    </div>
-  </footer>
-
-  <script src="/assets/js/petition.js?v=4" defer></script>
+  <script src="/assets/js/petition.js?v=6" defer></script>
 </body>
 </html>

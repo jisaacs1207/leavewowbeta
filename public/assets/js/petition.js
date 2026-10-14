@@ -7,10 +7,19 @@
   const sigList = document.getElementById("sig-list");
   const liveCount = document.getElementById("live-count");
   const heroCount = document.querySelector(".hero__count");
+  const signCount = document.querySelector("[data-sign-count]");
   const copyBtn = document.getElementById("copy-link");
   const shareUrl = document.getElementById("share-url");
   const copySuggestedBtn = document.getElementById("copy-suggested");
   const suggestedCopy = document.getElementById("suggested-copy");
+  const characterInput = document.getElementById("character_name");
+
+  // Small client hint list; server filter is authoritative.
+  const blockedHints = [
+    "fuck", "shit", "asshole", "bitch", "cunt", "dick", "cock", "pussy",
+    "nigger", "nigga", "faggot", "retard", "rape", "nazi", "hitler",
+    "porn", "xxx", "onlyfans",
+  ];
 
   function formatCount(n) {
     try {
@@ -43,6 +52,14 @@
     requestAnimationFrame(frame);
   }
 
+  function setCounts(n) {
+    animateCount(heroCount, n);
+    animateCount(signCount, n);
+    if (liveCount) liveCount.textContent = formatCount(n);
+    if (heroCount) heroCount.setAttribute("data-count", String(n));
+    if (signCount) signCount.setAttribute("data-sign-count", String(n));
+  }
+
   function clearFieldErrors() {
     document.querySelectorAll(".field__error").forEach((el) => {
       el.hidden = true;
@@ -73,6 +90,18 @@
     statusEl.classList.toggle("is-error", !ok && !!message);
   }
 
+  function nameLooksAbusive(value) {
+    const raw = String(value || "").trim().toLowerCase();
+    if (!raw) return false;
+    if (/https?:\/\/|www\.|@|\.(com|net|org|gg|io)\b/i.test(raw)) return true;
+    if (/(.)\1{5,}/.test(raw)) return true;
+    const compact = raw.replace(/[^a-z]+/g, "");
+    return blockedHints.some((term) => {
+      if (compact === term) return true;
+      return new RegExp("\\b" + term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i").test(raw);
+    });
+  }
+
   function renderRecent(recent) {
     if (!sigList || !Array.isArray(recent)) return;
     sigList.innerHTML = "";
@@ -80,7 +109,7 @@
       const li = document.createElement("li");
       li.className = "sig-list__empty";
       li.id = "sig-empty";
-      li.textContent = "Be the first to sign.";
+      li.textContent = "No signatures yet. Be the first.";
       sigList.appendChild(li);
       return;
     }
@@ -98,11 +127,15 @@
     });
   }
 
-  // Hero count entrance animation on load
   if (heroCount) {
     const target = parseInt(heroCount.getAttribute("data-count") || "0", 10) || 0;
     heroCount.textContent = "0";
     animateCount(heroCount, target);
+  }
+  if (signCount) {
+    const target = parseInt(signCount.getAttribute("data-sign-count") || "0", 10) || 0;
+    signCount.textContent = "0";
+    animateCount(signCount, target);
   }
 
   async function copyText(value, button, idleLabel) {
@@ -134,7 +167,19 @@
 
   if (copySuggestedBtn && suggestedCopy) {
     copySuggestedBtn.addEventListener("click", () => {
-      copyText(suggestedCopy.textContent || "", copySuggestedBtn, "Copy suggested text");
+      copyText(suggestedCopy.textContent || "", copySuggestedBtn, "Copy text");
+    });
+  }
+
+  if (characterInput) {
+    characterInput.addEventListener("blur", () => {
+      const err = form && form.querySelector('[data-error-for="character_name"]');
+      if (!err) return;
+      if (nameLooksAbusive(characterInput.value)) {
+        characterInput.classList.add("invalid");
+        err.textContent = "Use a Forever character name.";
+        err.hidden = false;
+      }
     });
   }
 
@@ -144,6 +189,12 @@
     event.preventDefault();
     clearFieldErrors();
     setStatus("", false);
+
+    if (characterInput && nameLooksAbusive(characterInput.value)) {
+      showFieldErrors({ character_name: "Use a Forever character name." });
+      setStatus("Please fix the highlighted fields.", false);
+      return;
+    }
 
     if (submitBtn) {
       submitBtn.disabled = true;
@@ -176,9 +227,7 @@
       setStatus(data.message || "Thank you. Your signature was recorded.", true);
 
       if (typeof data.count === "number") {
-        animateCount(heroCount, data.count);
-        if (liveCount) liveCount.textContent = formatCount(data.count);
-        if (heroCount) heroCount.setAttribute("data-count", String(data.count));
+        setCounts(data.count);
       }
       if (data.recent) renderRecent(data.recent);
     } catch (_) {
