@@ -117,12 +117,13 @@
     const countSpan = document.createElement("span");
     countSpan.id = "live-count";
     countSpan.textContent = formatCount(count);
+    const sigWord = count === 1 ? "signature" : "signatures";
     lede.replaceChildren(
       countSpan,
       document.createTextNode(
         visible
           ? " character names so far. Newest first."
-          : " signatures so far. Names appear as more players sign."
+          : " " + sigWord + " so far. Names appear as more players sign."
       )
     );
   }
