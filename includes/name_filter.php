@@ -4,6 +4,9 @@ declare(strict_types=1);
 /**
  * Lightweight character-name abuse filter (word list + basic patterns).
  * Intended to block obvious profanity/slurs/spam without rejecting normal fantasy names.
+ *
+ * Curated English additions were reviewed against classic-wow-name-filter's
+ * namesprofanity.csv (MIT). We do not load the full CSV. See THIRD_PARTY_NOTICES.md.
  */
 
 /**
@@ -17,19 +20,22 @@ function petition_blocked_name_terms(): array
         // Common profanity
         'fuck', 'fucker', 'fucking', 'motherfucker', 'shit', 'bullshit', 'asshole',
         'bastard', 'bitch', 'cunt', 'dick', 'cock', 'pussy', 'twat', 'wank', 'wanker',
-        'piss', 'crap', 'slut', 'whore', 'faggot', 'fag', 'dyke', 'tranny',
+        'wankoff', 'piss', 'crap', 'slut', 'whore', 'faggot', 'fag', 'fags', 'dyke', 'tranny',
         // Sexual / pornographic / exploitative
-        'porn', 'porno', 'xxx', 'onlyfans', 'sex', 'sexy', 'nude', 'nudes', 'hentai',
-        'cum', 'jizz', 'penis', 'vagina', 'boob', 'boobs', 'tits', 'titty',
+        'porn', 'porno', 'pornstar', 'xxx', 'onlyfans', 'sex', 'sexy', 'nude', 'nudes', 'hentai',
+        'cum', 'jizz', 'jizzing', 'penis', 'vagina', 'boob', 'boobs', 'tits', 'titty',
         'pedo', 'pedophile', 'paedo', 'paedophile', 'childporn', 'loli', 'lolicon',
-        'shotacon', 'rape', 'rapist',
+        'shotacon', 'rape', 'rapist', 'raped', 'rapes', 'gangrape',
         // Race / ethnicity / antisemitic slurs and obvious hate (non-exhaustive)
-        'nigger', 'nigga', 'kike', 'spic', 'chink', 'gook', 'wetback', 'coon',
+        'nigger', 'nigga', 'niggr', 'niggs', 'kike', 'spic', 'chink', 'chinks', 'gook',
+        'wetback', 'coon', 'beaner', 'japs',
         'towelhead', 'raghead', 'sandnigger', 'sheeny', 'heeb', 'kyke',
-        'retard', 'retarded', 'nazi', 'hitler', 'heil',
+        'retard', 'retarded', 'nazi', 'hitler', 'heil', 'holocaust',
         // Religion / identity attack tokens (whole-word; keep fantasy names working)
         'christkiller', 'killjews', 'gasjews', 'gasjew', 'jewhater', 'muslimhater',
         'islamhater', 'burnquran', 'burnkoran', 'whitepower', 'heilhitler',
+        // Compound abuse handles seen in public name lists (classic-wow curated)
+        'annaslut', 'warslut', 'darkwanker', 'chokeoncocks',
         // Spam-ish handles that show up as "names"
         'admin', 'moderator', 'blizzard', 'support', 'http', 'https', 'www',
     ];
@@ -102,7 +108,8 @@ function petition_character_name_allowed(string $name): array
     $compactDenylist = [
         'fuck', 'shit', 'cunt', 'nigger', 'faggot', 'retard', 'porn', 'nazi', 'hitler', 'onlyfans',
         'kike', 'pedo', 'childporn', 'heilhitler', 'killjews', 'gasjew', 'whitepower',
-        'towelhead', 'raghead', 'christkiller',
+        'towelhead', 'raghead', 'christkiller', 'gangrape', 'beaner', 'holocaust',
+        'chokeoncocks', 'warslut', 'darkwanker',
     ];
     foreach ($compactDenylist as $term) {
         if (str_contains($compact, $term)) {
