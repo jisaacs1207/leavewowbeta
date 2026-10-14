@@ -344,20 +344,20 @@ h2 {
 
 .band__veil--why {
   background:
-    linear-gradient(90deg, rgba(5, 7, 11, 0.9) 0%, rgba(5, 7, 11, 0.62) 48%, rgba(5, 7, 11, 0.28) 100%),
-    linear-gradient(180deg, rgba(5, 7, 11, 0.35), rgba(5, 7, 11, 0.78));
+    linear-gradient(90deg, rgba(5, 7, 11, 0.82) 0%, rgba(5, 7, 11, 0.42) 52%, rgba(5, 7, 11, 0.12) 100%),
+    linear-gradient(180deg, rgba(5, 7, 11, 0.22), rgba(5, 7, 11, 0.55));
 }
 
 .band__veil--voices {
   background:
-    linear-gradient(90deg, rgba(5, 7, 11, 0.92) 0%, rgba(5, 7, 11, 0.7) 55%, rgba(5, 7, 11, 0.45) 100%),
-    linear-gradient(180deg, rgba(5, 7, 11, 0.4), rgba(5, 7, 11, 0.82));
+    linear-gradient(90deg, rgba(5, 7, 11, 0.86) 0%, rgba(5, 7, 11, 0.55) 58%, rgba(5, 7, 11, 0.28) 100%),
+    linear-gradient(180deg, rgba(5, 7, 11, 0.28), rgba(5, 7, 11, 0.68));
 }
 
 .band__veil--reach {
   background:
-    linear-gradient(180deg, rgba(5, 7, 11, 0.72) 0%, rgba(5, 7, 11, 0.82) 45%, rgba(5, 7, 11, 0.9) 100%),
-    linear-gradient(90deg, rgba(5, 7, 11, 0.55), rgba(5, 7, 11, 0.35));
+    linear-gradient(180deg, rgba(5, 7, 11, 0.58) 0%, rgba(5, 7, 11, 0.7) 45%, rgba(5, 7, 11, 0.82) 100%),
+    linear-gradient(90deg, rgba(5, 7, 11, 0.4), rgba(5, 7, 11, 0.22));
 }
 
 .band__inner {
@@ -931,7 +931,7 @@ h2 {
   .band__veil--why,
   .band__veil--voices {
     background:
-      linear-gradient(180deg, rgba(5, 7, 11, 0.35) 0%, rgba(5, 7, 11, 0.82) 45%, rgba(5, 7, 11, 0.94) 100%);
+      linear-gradient(180deg, rgba(5, 7, 11, 0.25) 0%, rgba(5, 7, 11, 0.62) 48%, rgba(5, 7, 11, 0.88) 100%);
   }
 
   .share-btn {
