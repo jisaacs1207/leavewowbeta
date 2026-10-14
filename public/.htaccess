@@ -1,0 +1,22 @@
+# Apache (typical Plesk) — document root should be this `public/` directory.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Deny access to hidden files
+  RewriteRule "(^|/)\." - [F]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "DENY"
+</IfModule>
+
+# Block direct web access to parent application files if docroot is mis-set
+Options -Indexes
+
+<IfModule mod_php.c>
+  php_flag display_errors Off
+</IfModule>

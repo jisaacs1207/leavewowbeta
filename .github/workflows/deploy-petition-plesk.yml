@@ -1,0 +1,73 @@
+# Optional path (B): sync this repo to Plesk over SFTP or SSH.
+# Primary recommendation is still Plesk's built-in Git deploy (path A) — see README.md.
+#
+# Enable by adding repository secrets, then push to main (or run manually).
+# Without secrets, this workflow skips deploy and exits successfully.
+
+name: Deploy petition to Plesk
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-petition-plesk
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check deploy secrets
+        id: secrets
+        env:
+          HAS_SFTP: ${{ secrets.PLESK_SFTP_HOST != '' && secrets.PLESK_SFTP_USER != '' && secrets.PLESK_SFTP_PASSWORD != '' }}
+          HAS_SSH: ${{ secrets.PLESK_SSH_HOST != '' && secrets.PLESK_SSH_USER != '' && secrets.PLESK_SSH_KEY != '' }}
+        run: |
+          if [ "$HAS_SFTP" = "true" ]; then
+            echo "mode=sftp" >> "$GITHUB_OUTPUT"
+          elif [ "$HAS_SSH" = "true" ]; then
+            echo "mode=ssh" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=skip" >> "$GITHUB_OUTPUT"
+            echo "No Plesk deploy secrets configured — skipping remote deploy."
+            echo "Add either SFTP secrets (PLESK_SFTP_*) or SSH secrets (PLESK_SSH_*) to enable."
+          fi
+
+      - name: Deploy via SFTP
+        if: steps.secrets.outputs.mode == 'sftp'
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.PLESK_SFTP_HOST }}
+          username: ${{ secrets.PLESK_SFTP_USER }}
+          password: ${{ secrets.PLESK_SFTP_PASSWORD }}
+          port: ${{ secrets.PLESK_SFTP_PORT || 22 }}
+          local_path: ./*
+          remote_path: ${{ secrets.PLESK_REMOTE_PATH || '/httpdocs' }}
+          sftpArgs: "-o StrictHostKeyChecking=no"
+
+      - name: Deploy via SSH (rsync)
+        if: steps.secrets.outputs.mode == 'ssh'
+        env:
+          SSH_HOST: ${{ secrets.PLESK_SSH_HOST }}
+          SSH_USER: ${{ secrets.PLESK_SSH_USER }}
+          SSH_KEY: ${{ secrets.PLESK_SSH_KEY }}
+          SSH_PORT: ${{ secrets.PLESK_SSH_PORT || 22 }}
+          REMOTE_PATH: ${{ secrets.PLESK_REMOTE_PATH || '/var/www/vhosts/leavewowbeta.live/httpdocs' }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          rsync -az --delete \
+            --exclude '.env' \
+            --exclude '.git' \
+            --exclude 'storage/rate_limits/*' \
+            -e "ssh -i ~/.ssh/id_deploy -p $SSH_PORT -o StrictHostKeyChecking=accept-new" \
+            ./ "${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/"
+          ssh -i ~/.ssh/id_deploy -p "$SSH_PORT" "${SSH_USER}@${SSH_HOST}" \
+            "mkdir -p '${REMOTE_PATH}/storage/rate_limits' && chmod 750 '${REMOTE_PATH}/storage' '${REMOTE_PATH}/storage/rate_limits' || true"
