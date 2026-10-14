@@ -101,6 +101,7 @@ function petition_config(): array
             'storage' => $root . '/storage/rate_limits',
         ],
         'app_url' => rtrim(env('APP_URL', 'https://leavewowbeta.live') ?? 'https://leavewowbeta.live', '/'),
+        'privacy_contact' => env('PRIVACY_CONTACT', 'privacy@leavewowbeta.live'),
         'debug' => env_bool('APP_DEBUG', false),
         'hash_pepper' => env('HASH_PEPPER', env('DB_PASS', 'leavewowbeta-pepper')),
     ];

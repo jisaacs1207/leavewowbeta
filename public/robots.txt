@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# No public admin or export surfaces; keep crawlers off storage/API paths if exposed.
+Disallow: /api/
+Disallow: /storage/
+Disallow: /includes/
+Disallow: /.env
+Disallow: /admin
+Disallow: /export

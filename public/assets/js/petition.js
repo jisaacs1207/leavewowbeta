@@ -158,7 +158,7 @@
       if (window.turnstile && typeof window.turnstile.reset === "function") {
         window.turnstile.reset();
       }
-      setStatus(data.message || "Thank you — your signature was recorded.", true);
+      setStatus(data.message || "Thank you. Your signature was recorded.", true);
 
       if (typeof data.count === "number") {
         animateCount(heroCount, data.count);

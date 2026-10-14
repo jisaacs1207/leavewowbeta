@@ -20,7 +20,7 @@ function petition_ip_hash(string $ip): string
 
 function petition_sanitize_character_name(string $name): string
 {
-    // WoW character names: letters only, typically 2–12; allow spaces for RP servers / display.
+    // WoW character names: letters only, typically 2-12; allow spaces for RP servers / display.
     $name = trim($name);
     $name = preg_replace('/\s+/u', ' ', $name) ?? '';
     // Strip control chars and angle brackets
@@ -28,21 +28,17 @@ function petition_sanitize_character_name(string $name): string
     return $name;
 }
 
-function petition_sanitize_realm(string $realm): string
-{
-    $realm = trim($realm);
-    $realm = preg_replace('/\s+/u', ' ', $realm) ?? '';
-    $realm = preg_replace('/[\x00-\x1F\x7F<>]/u', '', $realm) ?? '';
-    return $realm;
-}
-
+/**
+ * Validate public form input. Only email + character name are collected.
+ *
+ * @return array{ok:bool,errors:array<string,string>,data:array{email:string,character_name:string}}
+ */
 function petition_validate_signature_input(array $input): array
 {
     $errors = [];
 
     $email = petition_normalize_email((string) ($input['email'] ?? ''));
     $character = petition_sanitize_character_name((string) ($input['character_name'] ?? ''));
-    $realm = petition_sanitize_realm((string) ($input['realm'] ?? ''));
 
     if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'Enter a valid email address.';
@@ -59,19 +55,12 @@ function petition_validate_signature_input(array $input): array
         $errors['character_name'] = 'Character name may only contain letters, spaces, hyphens, or apostrophes.';
     }
 
-    if ($realm !== '' && mb_strlen($realm) > 64) {
-        $errors['realm'] = 'Realm name must be 64 characters or fewer.';
-    } elseif ($realm !== '' && !preg_match('/^[\p{L}\p{N}][\p{L}\p{N}\s\-\']{0,63}$/u', $realm)) {
-        $errors['realm'] = 'Realm name looks invalid.';
-    }
-
     return [
         'ok' => $errors === [],
         'errors' => $errors,
         'data' => [
             'email' => $email,
             'character_name' => $character,
-            'realm' => $realm === '' ? null : $realm,
         ],
     ];
 }
@@ -84,6 +73,8 @@ function petition_signature_count(): int
 }
 
 /**
+ * Public list only: never select or return email / email_hash / ip fields.
+ *
  * @return list<array{character_name:string,created_at:string}>
  */
 function petition_recent_signatures(int $limit = 12): array
@@ -102,6 +93,9 @@ function petition_recent_signatures(int $limit = 12): array
 }
 
 /**
+ * Store email server-side for petition delivery/verification.
+ * Uniqueness is enforced via email_hash. Realm is no longer collected (stored NULL).
+ *
  * @return array{ok:bool,error?:string,code?:string,id?:int}
  */
 function petition_create_signature(array $data, string $ip, string $userAgent): array
@@ -114,13 +108,12 @@ function petition_create_signature(array $data, string $ip, string $userAgent): 
             'INSERT INTO signatures
                 (email, email_hash, character_name, realm, ip_hash, user_agent_hash, created_at)
              VALUES
-                (:email, :email_hash, :character_name, :realm, :ip_hash, :ua_hash, UTC_TIMESTAMP())'
+                (:email, :email_hash, :character_name, NULL, :ip_hash, :ua_hash, UTC_TIMESTAMP())'
         );
         $stmt->execute([
             ':email' => $data['email'],
             ':email_hash' => $emailHash,
             ':character_name' => $data['character_name'],
-            ':realm' => $data['realm'],
             ':ip_hash' => petition_ip_hash($ip),
             ':ua_hash' => hash('sha256', (petition_config()['hash_pepper'] ?? '') . '|ua|' . $userAgent),
         ]);
@@ -135,7 +128,8 @@ function petition_create_signature(array $data, string $ip, string $userAgent): 
                 'error' => 'This email has already signed the petition.',
             ];
         }
-        error_log('petition: insert failed: ' . $e->getMessage());
+        // Do not log email addresses or request bodies.
+        error_log('petition: insert failed (PDO ' . $e->getCode() . ')');
         return [
             'ok' => false,
             'code' => 'server',

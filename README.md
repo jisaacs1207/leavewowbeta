@@ -1,4 +1,4 @@
-# leavewowbeta.live — Forever Beta Petition
+# leavewowbeta.live · Forever Beta Petition
 
 PHP + MySQL petition site asking Blizzard to keep **World of Warcraft: Forever** beta online until the **November 4** launch (instead of taking it down **October 21**).
 
@@ -14,11 +14,13 @@ PHP + MySQL petition site asking Blizzard to keep **World of Warcraft: Forever**
 
 ## Features
 
-- Brand-first landing page + sign form (email + character name required; realm optional)
-- One email = one signature (unique hash)
+- Brand-first landing page with Forever press-kit imagery hosted under `public/assets/img/`
+- Sign form: email + character name only (no realm, no legal name)
+- One email = one signature (unique server-side hash)
 - Public recent signatures show **character name only** (never email)
 - Spam: honeypot + IP rate limiting + Cloudflare Turnstile
-- Shareable URL, signature count, privacy note
+- Privacy contact: `PRIVACY_CONTACT` (default `privacy@leavewowbeta.live`)
+- Shareable URL, signature count, legal / privacy footer
 
 ---
 
@@ -35,7 +37,7 @@ Prefer **path A** (Plesk Git). Use **path B** (GitHub Actions) only if you want 
 
 ---
 
-## Path A — Plesk built-in Git (recommended)
+## Path A: Plesk built-in Git (recommended)
 
 1. Push this repo to GitHub (`jisaacs1207/leavewowbeta`).
 2. In **Plesk** → your domain `leavewowbeta.live` → **Git**:
@@ -43,7 +45,7 @@ Prefer **path A** (Plesk Git). Use **path B** (GitHub Actions) only if you want 
    - Branch: `main`
    - Deploy directory: typically `/httpdocs` (repo root lands here)
    - Enable **automatic deployment** (webhook) so each push to `main` pulls.
-3. **Additional deployment actions** (optional but useful) — paste:
+3. **Additional deployment actions** (optional but useful). Paste:
 
    ```bash
    bash deploy/plesk-post-deploy.sh
@@ -51,20 +53,20 @@ Prefer **path A** (Plesk Git). Use **path B** (GitHub Actions) only if you want 
 
 4. **Hosting Settings** → set **Document root** to the `public` directory  
    Example: `/var/www/vhosts/leavewowbeta.live/httpdocs/public`
-5. Create DB + `.env` (see below). Schema is not auto-run — import `sql/schema.sql` once.
+5. Create DB + `.env` (see below). Schema is not auto-run; import `sql/schema.sql` once.
 6. Push to `main` → Plesk pulls → site updates.
 
 > Keep `.env` **only on the server**. Never commit it. Plesk Git deploy will not overwrite an existing untracked `.env` if you create it outside the repo or mark it as a server-only file.
 
 ---
 
-## Path B — GitHub Actions SFTP / SSH (optional)
+## Path B: GitHub Actions SFTP / SSH (optional)
 
 Workflow: `.github/workflows/deploy-petition-plesk.yml`
 
 It runs on pushes to `main`. **Without secrets it skips** (safe no-op).
 
-### Option B1 — SFTP secrets
+### Option B1: SFTP secrets
 
 | Secret | Example |
 |--------|---------|
@@ -74,7 +76,7 @@ It runs on pushes to `main`. **Without secrets it skips** (safe no-op).
 | `PLESK_SFTP_PORT` | `22` (optional) |
 | `PLESK_REMOTE_PATH` | `/httpdocs` (optional; repo root) |
 
-### Option B2 — SSH + rsync secrets
+### Option B2: SSH + rsync secrets
 
 | Secret | Example |
 |--------|---------|
@@ -99,7 +101,7 @@ After first Actions deploy, still set document root to `…/petition/public` and
 
    Or use **phpMyAdmin** → Import → `sql/schema.sql`.
 
-3. Confirm table `signatures` exists.
+3. Confirm table `signatures` exists. The `realm` column may remain for older rows; new signatures store `NULL`.
 
 ---
 
@@ -107,7 +109,7 @@ After first Actions deploy, still set document root to `…/petition/public` and
 
 ```bash
 cp .env.example .env
-# edit .env in the repo root on the server — never commit this file
+# edit .env in the repo root on the server; never commit this file
 ```
 
 | Variable | Purpose |
@@ -118,6 +120,7 @@ cp .env.example .env
 | `TURNSTILE_SITE_KEY` | Cloudflare Turnstile widget site key |
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret (server only) |
 | `APP_URL` | `https://leavewowbeta.live` |
+| `PRIVACY_CONTACT` | Public privacy mailbox (default `privacy@leavewowbeta.live`) |
 | `APP_DEBUG` | `0` in production |
 | `RATE_LIMIT_MAX` | Max sign attempts per IP per window (default `5`) |
 | `RATE_LIMIT_WINDOW_SECONDS` | Window length (default `3600`) |
@@ -145,7 +148,7 @@ chmod 750 storage storage/rate_limits
 7. Open the site → sign form should show the Turnstile widget.
 8. Test a signature; failed secret/site key pairs return a verification error from `/api/sign.php`.
 
-**Test keys** (Cloudflare docs): use only in staging — never for production.
+**Test keys** (Cloudflare docs): use only in staging, never for production.
 
 If Turnstile keys are empty, the page shows a warning and signing will fail server-side until configured (by design).
 
@@ -168,6 +171,9 @@ Visit `http://127.0.0.1:8080`.
 
 ## Privacy & legitimacy
 
-- Emails stored for petition verification/delivery only; not sold; not shown publicly.
+- Emails stored server-side for petition verification/delivery only; not sold; not shown publicly.
+- Uniqueness uses a peppered `email_hash`; public HTML/JSON never includes email.
 - Character names appear in the recent signatures list.
-- Independent community petition — not affiliated with Blizzard Entertainment.
+- Privacy requests: `privacy@leavewowbeta.live` (or `PRIVACY_CONTACT`).
+- Independent community petition. Not affiliated with Blizzard Entertainment.
+- Press assets: see `public/assets/img/ATTRIBUTION.txt` and [Blizzard Gamespress](https://blizzard.gamespress.com/wowforeverreveal).

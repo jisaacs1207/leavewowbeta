@@ -1,5 +1,5 @@
 # Optional path (B): sync this repo to Plesk over SFTP or SSH.
-# Primary recommendation is still Plesk's built-in Git deploy (path A) — see README.md.
+# Primary recommendation is still Plesk's built-in Git deploy (path A); see README.md.
 #
 # Enable by adding repository secrets, then push to main (or run manually).
 # Without secrets, this workflow skips deploy and exits successfully.
@@ -34,7 +34,7 @@ jobs:
             echo "mode=ssh" >> "$GITHUB_OUTPUT"
           else
             echo "mode=skip" >> "$GITHUB_OUTPUT"
-            echo "No Plesk deploy secrets configured — skipping remote deploy."
+            echo "No Plesk deploy secrets configured; skipping remote deploy."
             echo "Add either SFTP secrets (PLESK_SFTP_*) or SSH secrets (PLESK_SSH_*) to enable."
           fi
 

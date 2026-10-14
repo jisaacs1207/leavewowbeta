@@ -10,7 +10,7 @@ function petition_verify_turnstile(string $token, ?string $remoteIp = null): arr
     $config = petition_config();
     $secret = $config['turnstile']['secret_key'] ?? '';
     if ($secret === '') {
-        // Local/staging convenience only — never skip in production.
+        // Local/staging convenience only: never skip in production.
         if (!empty($config['debug'])) {
             return [
                 'success' => true,

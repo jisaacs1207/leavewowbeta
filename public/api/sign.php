@@ -5,6 +5,7 @@ require_once dirname(__DIR__, 2) . '/includes/bootstrap.php';
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
+header('X-Content-Type-Options: nosniff');
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
     http_response_code(405);
@@ -45,7 +46,6 @@ if (!$verify['success']) {
 $validated = petition_validate_signature_input([
     'email' => $_POST['email'] ?? '',
     'character_name' => $_POST['character_name'] ?? '',
-    'realm' => $_POST['realm'] ?? '',
 ]);
 
 if (!$validated['ok']) {
@@ -63,6 +63,7 @@ $userAgent = substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 512);
 try {
     $result = petition_create_signature($validated['data'], $ip, $userAgent);
 } catch (Throwable $e) {
+    // Never log emails or form bodies.
     error_log('petition: sign failed: ' . $e->getMessage());
     http_response_code(500);
     $payload = [
@@ -96,6 +97,7 @@ try {
     $recent = [];
 }
 
+// Public payload: character names + relative times only. Never include email.
 $publicRecent = array_map(static function (array $row): array {
     return [
         'character_name' => $row['character_name'],
@@ -106,7 +108,7 @@ $publicRecent = array_map(static function (array $row): array {
 
 echo json_encode([
     'ok' => true,
-    'message' => 'Thank you — your signature was recorded.',
+    'message' => 'Thank you. Your signature was recorded.',
     'count' => $count,
     'recent' => $publicRecent,
 ]);

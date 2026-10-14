@@ -1,4 +1,4 @@
-# Apache (typical Plesk) — document root should be this `public/` directory.
+# Apache (typical Plesk): document root should be this `public/` directory.
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
