@@ -9,6 +9,8 @@
   const heroCount = document.querySelector(".hero__count");
   const copyBtn = document.getElementById("copy-link");
   const shareUrl = document.getElementById("share-url");
+  const copySuggestedBtn = document.getElementById("copy-suggested");
+  const suggestedCopy = document.getElementById("suggested-copy");
 
   function formatCount(n) {
     try {
@@ -103,23 +105,36 @@
     animateCount(heroCount, target);
   }
 
+  async function copyText(value, button, idleLabel) {
+    if (!button || !value) return;
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch (_) {
+      const ta = document.createElement("textarea");
+      ta.value = value;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "absolute";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+    button.textContent = "Copied";
+    setTimeout(() => {
+      button.textContent = idleLabel;
+    }, 1600);
+  }
+
   if (copyBtn && shareUrl) {
-    copyBtn.addEventListener("click", async () => {
-      const value = shareUrl.value;
-      try {
-        await navigator.clipboard.writeText(value);
-        copyBtn.textContent = "Copied";
-        setTimeout(() => {
-          copyBtn.textContent = "Copy link";
-        }, 1600);
-      } catch (_) {
-        shareUrl.select();
-        document.execCommand("copy");
-        copyBtn.textContent = "Copied";
-        setTimeout(() => {
-          copyBtn.textContent = "Copy link";
-        }, 1600);
-      }
+    copyBtn.addEventListener("click", () => {
+      copyText(shareUrl.value, copyBtn, "Copy link");
+    });
+  }
+
+  if (copySuggestedBtn && suggestedCopy) {
+    copySuggestedBtn.addEventListener("click", () => {
+      copyText(suggestedCopy.textContent || "", copySuggestedBtn, "Copy suggested text");
     });
   }
 
