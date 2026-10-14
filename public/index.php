@@ -42,7 +42,7 @@ $mailtoBody = rawurlencode(
     . $shareLine . ' ' . $appUrl . " @Warcraft\n"
 );
 $suggestedCopy = $shareLine . ' ' . $appUrl . ' @Warcraft';
-$ogImage = rtrim($appUrl, '/') . '/assets/img/og-share.jpg';
+$ogImage = rtrim($appUrl, '/') . '/assets/img/og-share.jpg?v=2';
 $pageTitle = 'Leave Wow Beta Live | Keep WoW Forever Beta Online Until Nov 4';
 $pageDescription = 'Leave Wow Beta Live asks Blizzard to keep WoW Forever beta online after the October 21 take-down through the November 4 launch. Sign the petition at leavewowbeta.live.';
 $jsonLd = [
@@ -186,7 +186,7 @@ $jsonLd = [
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css?v=18">
+  <link rel="stylesheet" href="/assets/css/styles.css?v=19">
   <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
   <?php if ($siteKey !== ''): ?>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
